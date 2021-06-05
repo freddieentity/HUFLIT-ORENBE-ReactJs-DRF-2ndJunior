@@ -2,9 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {signup} from "../../redux/actions/auth" ;
 import { connect } from 'react-redux';
-
-// import validate from "./validateSignUpInfo";
-import "./Form.css";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";

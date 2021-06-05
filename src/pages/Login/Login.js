@@ -2,8 +2,8 @@ import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { login } from "../../redux/actions/auth";
 import { connect } from "react-redux";
-import "./Form.css";
 import { useForm } from "react-hook-form";
+import "./Form.css";
 
 const Login = ({ login, isAuthenticated, user }) => {
   const { register, handleSubmit } = useForm();

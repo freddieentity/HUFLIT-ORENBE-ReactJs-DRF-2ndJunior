@@ -27,6 +27,7 @@ import GuestPersonal from "./pages/GuestPersonal/GuestPersonal";
 import PartnerBooking from "./pages/PartnerBooking/PartnerBooking";
 import PartnerUserInfo from "./pages/PartnerUserInfo/PartnerUserInfo";
 import Form from "./components/Form";
+import Contact from "./pages/Contact/Contact";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/hotels/:slug" component={DetailHotel} />
           <Route exact path="/rooms/:slug" component={DetailRoom} />
           <Route exact path="/search" component={HotelSearchList} />
+          <Route exact path="/contact" component={Contact} />
           <PrivateRoute
             exact
             path="/personal/:email"
