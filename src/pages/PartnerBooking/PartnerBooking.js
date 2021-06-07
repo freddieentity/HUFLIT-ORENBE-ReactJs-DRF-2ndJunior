@@ -40,7 +40,7 @@ function PartnerBooking({
       dataIndex: ["user", "email"],
     },
     {
-      title: "name",
+      title: "Guest",
       dataIndex: "guest_name",
     },
     {
@@ -81,7 +81,6 @@ function PartnerBooking({
       <Table
         columns={columns}
         dataSource={partnerBookings}
-        scroll={{ x: 1300 }}
         rowClassName={(record) => !record.is_paid && c.disabledrow}
       />
     </div>

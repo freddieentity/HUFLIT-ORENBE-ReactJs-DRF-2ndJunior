@@ -1,6 +1,7 @@
 import {
   GET_HOTELS,
   SEARCH_HOTELS,
+  GET_HOTELS_BY_PARTNER,
   GET_HOTEL_BY_ROOM_ID,
   POST_HOTEL,
   PATCH_HOTEL,
@@ -25,9 +26,22 @@ export const getHotels = () => async (dispatch) => {
         payload: res.data,
       });
       console.log("Get hotels successfully");
-      console.log(res.data);
     })
     .catch((err) => console.log(`Get hotels failed ! | ${err}`));
+};
+
+export const getHotelsByPartner = (email) => async (dispatch) => {
+  axios
+    .get(`${baseURL}/api/hotels/partnerhotels/?email=${email}`)
+    .then((res) => {
+      dispatch({
+        type: GET_HOTELS_BY_PARTNER,
+        payload: res.data,
+      });
+      console.log("Get partner hotels successfully");
+      console.log(res.data);
+    })
+    .catch((err) => console.log(`Get partner hotels failed ! | ${err}`));
 };
 
 export const searchHotels = (queryString) => async (dispatch) => {
@@ -46,6 +60,7 @@ export const getHotelByRoomId = (room_id) => async (dispatch) => {
   axios
     .get(`${baseURL}/api/hotels/rooms/?id=${room_id}`)
     .then((res) => {
+      console.log(`lay room co id thoa dk ${res.data}`);
       axios
         .get(`${baseURL}/api/hotels/?id=${res.data.hotel_id}`)
         .then((resp) => {
@@ -76,6 +91,7 @@ export const postHotel = (data) => async (dispatch) => {
 };
 
 export const patchHotel = (id, data) => async (dispatch) => {
+  console.log(data);
   axios
     .patch(`${baseURL}/api/hotels/?id=${id}`, data, hotelConfig)
     .then((res) => {

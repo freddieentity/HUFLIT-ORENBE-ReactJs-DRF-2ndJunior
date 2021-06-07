@@ -44,10 +44,14 @@ class Hotel(models.Model):
     base_price_per_night = models.DecimalField(max_digits=10, decimal_places=2, default=1)
     description = models.CharField(max_length=250, null=True)
     policy = models.CharField(max_length=50, null=True)
+    business_license = models.CharField(max_length=14, null=True)
     main_photo = models.ImageField(upload_to='hotel/main/')
     hotel_type_id = models.ForeignKey(HotelType, on_delete=models.CASCADE, null=True)
+    is_approved = models.BooleanField(default=False)
+    is_available = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):  # override lại method save để khi gọi nó gán slug
+        print(f"####54 {self.id}")
         original_slug = slugify(self.name)
         queryset = Hotel.objects.all().filter(slug__iexact=original_slug).count()
 
@@ -86,7 +90,7 @@ class Room(models.Model):
     main_photo = models.ImageField(upload_to='room/main/')
     rating = models.DecimalField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True, decimal_places=1, max_digits=1, default=0)
     base_price_per_night = models.DecimalField(max_digits=10, decimal_places=2, default=1)
-    hotel_id = models.ForeignKey(Hotel, on_delete=models.CASCADE, null=True)
+    hotel_id = models.ForeignKey(Hotel, on_delete=models.RESTRICT, null=True)
     is_available = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):  # override lại method save để khi gọi nó gán slug
@@ -187,17 +191,16 @@ class Booking(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if self.checkin < date.today() or self.checkout < date.today():
-            raise ValidationError("The date cannot be in the past!")
+        if self.id == None:
+            if self.checkin < date.today() or self.checkout < date.today():
+                raise ValidationError("The date cannot be in the past!")
         
-        elif self.checkin >= self.checkout:
-            raise ValidationError("Check-out must be after the day of check-in")
+            elif self.checkin >= self.checkout:
+                raise ValidationError("Check-out must be after the day of check-in")
             
         super(Booking, self).save(*args, **kwargs)       
 
 
-class MyException(Exception):
-    pass
 
 class Comment(models.Model):
     booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True)

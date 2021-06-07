@@ -18,7 +18,6 @@ class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
         fields = '__all__'
-        depth = 1
 
 
 class RoomDetailSerializer(serializers.ModelSerializer):
@@ -40,7 +39,6 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = '__all__'
-        depth = 1
 
 
 class RoomImageSerializer(serializers.ModelSerializer):

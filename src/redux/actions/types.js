@@ -8,6 +8,7 @@ export const PATCH_USER = "PATCH_USER";
 
 //HOTEL
 export const GET_HOTELS = "GET_HOTELS";
+export const GET_HOTELS_BY_PARTNER = "GET_HOTELS_BY_PARTNER";
 export const SEARCH_HOTELS = "SEARCH_HOTELS";
 export const GET_HOTEL_BY_ROOM_ID = "GET_HOTEL_BY_ROOM_ID";
 export const POST_HOTEL = "POST_HOTEL";

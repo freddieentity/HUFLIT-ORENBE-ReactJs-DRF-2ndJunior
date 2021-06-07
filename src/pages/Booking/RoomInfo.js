@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { FaHotel } from "react-icons/fa";
 import RoomInfoCard from "./RoomInfoCard";
+import { Redirect } from "react-router-dom";
 
 const style = makeStyles((theme) => ({
   box: {
@@ -16,7 +17,9 @@ const style = makeStyles((theme) => ({
 function RoomInfo({ singleRoom, hotelRoom }) {
   const classes = style();
 
-  console.log(hotelRoom);
+  if (!singleRoom.is_available) {
+    return <Redirect to="/search/" />;
+  }
   return (
     <Paper className={classes.box} square>
       <Typography

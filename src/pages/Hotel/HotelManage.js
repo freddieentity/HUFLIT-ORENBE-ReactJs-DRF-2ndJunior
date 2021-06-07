@@ -57,9 +57,15 @@ function HotelManage({
   };
 
   const onSubmit = (rawData) => {
+    console.log(rawData);
     setShowDrawer(false);
     setLoading(true);
-    const data = { ...rawData, main_photo: pic };
+    const data = {
+      ...rawData,
+      main_photo: pic,
+      is_online_checked_in: rawData.is_online_checked_in.toString(),
+      is_available: rawData.is_available.toString(),
+    };
     const formData = new FormData();
     data.name && formData.append("name", data.name);
     data.base_price_per_night &&
@@ -72,6 +78,9 @@ function HotelManage({
     data.policy && formData.append("policy", data.policy);
     data.rating && formData.append("rating", data.rating);
     data.sub_name && formData.append("sub_name", data.sub_name);
+    data.is_available && formData.append("is_available", data.is_available);
+    data.business_license &&
+      formData.append("business_license", data.business_license);
 
     mode === "add" ? postHotel(formData) : patchHotel(hotel.id, formData);
     setTimeout(() => {
@@ -210,15 +219,21 @@ function HotelManage({
                 <Form.Item
                   name="rating"
                   label="Rating"
+                  type="text"
                   tooltip="Based on the Michelin star ranking list"
-                  rules={[{ required: true, message: "Please input rating!" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input from 1 to 5!",
+                      max: 5,
+                      min: 1,
+                    },
+                  ]}
                 >
                   <Input
                     prefix={<StarOutlined className="site-form-item-icon" />}
-                    type="text"
                     placeholder="Enter rating"
                     {...register("rating", { required: true })}
-                    autoFocus
                   />
                 </Form.Item>
               </Col>
@@ -226,7 +241,7 @@ function HotelManage({
           </Col>
           <Col span={12}>
             <Row>
-              <Col span={24}>
+              <Col span={12}>
                 <Form.Item
                   name="policy"
                   label="Hotel's policy"
@@ -243,9 +258,46 @@ function HotelManage({
                   />
                 </Form.Item>
               </Col>
+              <Col span={12}>
+                <FormItem label="Available">
+                  <Controller
+                    control={control}
+                    defaultValue={hotel.is_available}
+                    name="is_available"
+                    render={({ field: { value, onChange } }) => (
+                      <Checkbox
+                        checked={value}
+                        onChange={(e) => {
+                          onChange(e.target.checked);
+                        }}
+                      />
+                    )}
+                  />
+                </FormItem>
+              </Col>
             </Row>
             <Row>
-              <Col span={24}>
+              <Col span={12}>
+                <Form.Item
+                  name="business_license"
+                  tooltip="Other information about the hotel."
+                  label="Hotel business license"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input hotel business license!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Enter business_license"
+                    {...register("business_license", { required: true })}
+                    autoFocus
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
                 <Form.Item
                   name="description"
                   tooltip="Other information about the hotel."

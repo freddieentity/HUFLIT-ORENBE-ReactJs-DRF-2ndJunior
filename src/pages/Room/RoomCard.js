@@ -86,11 +86,16 @@ export default function RoomCard({ room }) {
                 max-width: 80px;
               `}
               style={{ cursor: "default" }}
-              onClick={() => console.log(room.id)}
             >
-              <Link to={`/booking/${room.id}`} style={{ color: "white" }}>
-                Book Now!
-              </Link>
+              {room.is_available ? (
+                <Link to={`/booking/${room.id}`} style={{ color: "white" }}>
+                  Book Now!
+                </Link>
+              ) : (
+                <Link to={`/search/`} style={{ color: "#942e26" }}>
+                  Unavaiable
+                </Link>
+              )}
             </Button>
           </CardContent>
         </Card>

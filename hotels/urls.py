@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CommentsView, HotelTypesView, HotelsView, HotelImagesView, HotelView, RoomBookingsView, RoomView, RoomsView, RoomImagesView, HotelAddressesView, RoomAmenitiesView, HotelAmenitiesView, RoomsHotelAssociation, HotelSearch, BookingsView, UserBookingsView, PartnerBookingsView, SavedHotelsView
+from .views import CommentsView, HotelTypesView, HotelsView, HotelImagesView, HotelView, PartnerHotelsView, RoomBookingsView, RoomView, RoomsView, RoomImagesView, HotelAddressesView, RoomAmenitiesView, HotelAmenitiesView, RoomsHotelAssociation, HotelSearch, BookingsView, UserBookingsView, PartnerBookingsView, SavedHotelsView
 
 urlpatterns = [
     path('hoteltypes/', HotelTypesView.as_view()),
@@ -20,4 +20,5 @@ urlpatterns = [
     path('roombooking/', RoomBookingsView.as_view()),
     path('savedhotels/', SavedHotelsView.as_view()),
     path('comments/', CommentsView.as_view()),
+    path('partnerhotels/', PartnerHotelsView.as_view()),
 ]

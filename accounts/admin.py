@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import UserAccount, UserAccountManager
+from .models import UserAccount
 
-# Register your models here.
-admin.site.register(UserAccount)
+
+class UserAccountAdmin(admin.ModelAdmin):
+    search_fields = ('name', 'email')
+    list_per_page = 25
+
+admin.site.register(UserAccount, UserAccountAdmin)

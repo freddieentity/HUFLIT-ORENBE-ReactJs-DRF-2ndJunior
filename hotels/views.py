@@ -76,6 +76,26 @@ class HotelView(RetrieveAPIView):
     lookup_field = 'slug'
 
 
+class PartnerHotelsView(APIView):
+    permission_classes = (permissions.AllowAny, )
+    serializer_class = HotelSerializer
+    pagination_class = None
+
+    def get(self, request):
+        try:
+            if request.query_params["email"] != None:
+                user_instance = UserAccount.objects.get(email=request.query_params["email"])
+                hotels_owner = HotelOwner.objects.filter(user=user_instance)
+                print(set([i.hotel_id.id for i in hotels_owner]))
+                queryset = Hotel.objects.filter(id__in=set([i.hotel_id.id for i in hotels_owner]))
+                serializer = HotelSerializer(queryset, many=True)
+                result = serializer.data
+        except:
+            result = {}
+ 
+        return Response(result) 
+
+
 class HotelsView(APIView):
     permission_classes = (permissions.AllowAny, )
     serializer_class = HotelSerializer
@@ -111,17 +131,30 @@ class HotelsView(APIView):
 
     #PATCH /api/hotels/?id
     def patch(self, request, *args, **kwargs):
-        print(request.data)
         queryset = Hotel.objects.get(id=request.query_params["id"])
         data = request.data
+        print(f'136 {data}')
 
         try:
-            is_online_checked_in = json.loads(request.PATCH.get('is_online_checked_in'))
-            if is_online_checked_in != None:
-                queryset.is_online_checked_in = is_online_checked_in
+            if data['is_online_checked_in'] != None:
+                if data['is_online_checked_in'] == 'true':
+                    queryset.is_online_checked_in = True
+                if data['is_online_checked_in'] == 'false':
+                    queryset.is_online_checked_in = False
+            
         
         except:
             queryset.is_online_checked_in = queryset.is_online_checked_in
+
+        try:
+            if data['is_available'] != None and data['is_available'] == 'true':
+                queryset.is_available = True
+            
+            if data['is_available'] != None and data['is_available'] == 'false':
+                queryset.is_available = False
+        
+        except:
+            queryset.is_available = queryset.is_available
 
         queryset.name = data.get("name", queryset.name)
         queryset.sub_name = data.get("sub_name", queryset.sub_name)
@@ -241,7 +274,7 @@ class RoomsView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             if request.query_params["id"] != None:
-                queryset = Room.objects.get(id=request.query_params["id"])
+                queryset = Room.objects.get(id=request.query_params["id"], is_available=True)
                 serializer = RoomSerializer(queryset)
                 
         except:
@@ -739,7 +772,7 @@ class BookingsView(APIView):
         try:
             is_cancel = data['is_cancel']
             if is_cancel != None:
-                queryset.is_cancel = is_cancel
+                queryset.is_cancel = is_cancel  
         
         except:
             queryset.is_cancel = queryset.is_cancel

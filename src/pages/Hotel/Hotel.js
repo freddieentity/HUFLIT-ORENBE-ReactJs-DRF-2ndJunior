@@ -4,12 +4,13 @@ import { Layout, Table, Rate, Card, Button, Image, Modal } from "antd";
 import HotelManage from "./HotelManage";
 import { Button as BlackButton } from "../../components/Button";
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import { getHotels, deleteHotel } from "../../redux/actions/hotel";
+import { getHotelsByPartner, patchHotel } from "../../redux/actions/hotel";
 import { connect } from "react-redux";
 import HotelSpecification from "./HotelSpecification";
 import { Paper } from "@material-ui/core";
-import { FcOrgUnit, FcTimeline, FcDeleteRow } from "react-icons/fc";
+import { FcOrgUnit, FcTimeline } from "react-icons/fc";
 import HashLoader from "react-spinners/HashLoader";
+import { makeStyles } from "@material-ui/core/styles";
 
 const { Meta } = Card;
 const baseURL = process.env.REACT_APP_BACKEND_API;
@@ -25,8 +26,18 @@ const defaultHotelValue = {
   rating: 0,
   sub_name: "",
 };
+const useStyles = makeStyles({
+  disabledrow: {
+    backgroundColor: "#d8f2f1",
+    pointerEvents: "none",
+  },
+  unavailable: {
+    backgroundColor: "#f5b8b8",
+  },
+});
 
-function Hotel({ hotels, getHotels, deleteHotel }) {
+function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
+  const c = useStyles();
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [mode, setMode] = useState("add");
@@ -34,8 +45,8 @@ function Hotel({ hotels, getHotels, deleteHotel }) {
   const [hotelEdit, setHotelEdit] = useState(defaultHotelValue);
 
   useEffect(() => {
-    getHotels();
-  }, [getHotels]);
+    getHotelsByPartner(sessionStorage.getItem("email"));
+  }, [getHotelsByPartner]);
 
   const columns = [
     {
@@ -107,17 +118,18 @@ function Hotel({ hotels, getHotels, deleteHotel }) {
             }}
             icon={<FcTimeline />}
           ></Button>
-          <Button
+          {/* <Button
             onClick={() => {
-              window.confirm("Sure", "You will delete record permanently!");
               setLoading(true);
-              deleteHotel(hotel.id);
+              patchHotel(hotel.id, {
+                
+              });
               setTimeout(() => {
                 setLoading(false);
               }, 800);
             }}
             icon={<FcDeleteRow />}
-          ></Button>
+          ></Button> */}
         </span>
       ),
     },
@@ -164,6 +176,11 @@ function Hotel({ hotels, getHotels, deleteHotel }) {
                     columns={columns}
                     pagination={{ defaultPageSize: 4 }}
                     loading={loading}
+                    rowClassName={(record) =>
+                      !record.is_approved
+                        ? c.disabledrow
+                        : !record.is_available && c.unavailable
+                    }
                   />
                 </Paper>
               </Layout.Content>
@@ -191,11 +208,10 @@ function Hotel({ hotels, getHotels, deleteHotel }) {
 }
 
 const mapStateToProps = (state) => ({
-  hotels: state.hotel.hotels, //hotels here is equal to the universal
-  //state to reducer hotel in there we have the hotels as the initialState
+  hotels: state.hotel.partnerHotels,
 });
 
 export default connect(mapStateToProps, {
-  getHotels,
-  deleteHotel,
+  getHotelsByPartner,
+  patchHotel,
 })(Hotel);

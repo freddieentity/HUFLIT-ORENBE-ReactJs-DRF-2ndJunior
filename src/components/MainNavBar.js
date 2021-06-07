@@ -14,7 +14,9 @@ const MainNavBar = ({ auth: { isAuthenticated, user }, logout }) => {
     var itemPosNewAnimTop = activeItemNewAnim.position()
       ? activeItemNewAnim.position()
       : 0;
-    var itemPosNewAnimLeft = activeItemNewAnim.position();
+    var itemPosNewAnimLeft = activeItemNewAnim.position()
+      ? activeItemNewAnim.position()
+      : 0;
 
     $(".hori-selector").css({
       top: itemPosNewAnimTop.top + "px",
@@ -108,6 +110,11 @@ const MainNavBar = ({ auth: { isAuthenticated, user }, logout }) => {
           <li className="nav-item">
             <NavLink className="nav-link" to="/partners/bookings" exact>
               Booking
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/contact" exact>
+              Contact
             </NavLink>
           </li>
         </ul>

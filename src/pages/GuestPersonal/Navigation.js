@@ -4,19 +4,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PhoneIcon from "@material-ui/icons/Phone";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
-import HelpIcon from "@material-ui/icons/Help";
-import ShoppingBasket from "@material-ui/icons/ShoppingBasket";
-import ThumbDown from "@material-ui/icons/ThumbDown";
-import ThumbUp from "@material-ui/icons/ThumbUp";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PersonalInformation from "./PersonalInformation";
 import GuestBookingItem from "./GuestBookingItem";
 import SavedHotelItem from "./SavedHotelItem";
 import Invoice from "./Invoice";
+import Paid from "./Paid";
+import { GrDocumentMissing } from "react-icons/gr";
+import { GiBanknote } from "react-icons/gi";
+import { RiHistoryLine } from "react-icons/ri";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,7 +68,7 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ textAlign: "center" }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -84,15 +83,21 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
             aria-label="favorite"
             {...a11yProps(1)}
           />
-          <Tab icon={<PhoneIcon />} aria-label="phone" {...a11yProps(0)} />
-          <Tab icon={<HelpIcon />} aria-label="help" {...a11yProps(3)} />
           <Tab
-            icon={<ShoppingBasket />}
+            icon={<GrDocumentMissing fontSize="24px" />}
+            aria-label="phone"
+            {...a11yProps(2)}
+          />
+          <Tab
+            icon={<GiBanknote fontSize="24px" />}
+            aria-label="help"
+            {...a11yProps(3)}
+          />
+          <Tab
+            icon={<RiHistoryLine fontSize="24px" />}
             aria-label="shopping"
             {...a11yProps(4)}
           />
-          <Tab icon={<ThumbDown />} aria-label="up" {...a11yProps(5)} />
-          <Tab icon={<ThumbUp />} aria-label="down" {...a11yProps(6)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -104,21 +109,25 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
       <TabPanel value={value} index={2}>
         {guestBookings &&
           guestBookings.map(
-            (gb) => !gb.is_paid && <GuestBookingItem gb={gb} />
+            (gb) => !gb.is_paid && !gb.is_cancel && <GuestBookingItem gb={gb} />
           )}
       </TabPanel>
       <TabPanel value={value} index={3}>
         {guestBookings &&
-          guestBookings.map((gb) => gb.is_paid && <Invoice gb={gb} />)}
+          guestBookings.map(
+            (gb) =>
+              gb.is_paid &&
+              !gb.is_cancel &&
+              Date.parse(gb.checkout) > Date.now() && <Paid gb={gb} />
+          )}
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
+        {guestBookings &&
+          guestBookings.map(
+            (gb) =>
+              gb.is_paid &&
+              Date.parse(gb.checkout) < Date.now() && <Invoice gb={gb} />
+          )}
       </TabPanel>
     </div>
   );
