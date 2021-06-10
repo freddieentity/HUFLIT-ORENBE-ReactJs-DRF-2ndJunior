@@ -12,13 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { StarBorder, Star } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { postComment } from "../../redux/actions/comment";
-import { patchBooking } from "../../redux/actions/booking";
 import { toast } from "react-toastify";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import DocumentPDF from "./DocumentPDF";
 
@@ -53,9 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Invoice({ gb, postComment, patchBooking }) {
+function Invoice({ gb, postComment }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const showModal = () => {
@@ -170,52 +163,6 @@ function Invoice({ gb, postComment, patchBooking }) {
                 )}
               </PDFDownloadLink>
             </IconButton>
-            <IconButton aria-label="next">
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={() => setOpen(!open)}
-              >
-                Cancel
-              </Button>
-              <Dialog
-                open={open}
-                onClose={() => setOpen(!open)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"Are you sure to cancel the booking?"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    <strong>Hotel Cancelation Policy</strong>
-                  </DialogContentText>
-                  <DialogContentText id="alert-dialog-description">
-                    You would rechare 50% if you cancel before 72 hours from the
-                    check-in. Within the duration of 72 hours before the checkin
-                    or after, if you don't contact, you would loose 100% payment
-                    or total deposit with no refund.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => setOpen(!open)} color="primary">
-                    Disagree
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setOpen(!open);
-                      patchBooking(gb.id, { is_cancel: true });
-                    }}
-                    color="primary"
-                    autoFocus
-                  >
-                    Agree
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </IconButton>
           </div>
         </div>
         <CardMedia
@@ -251,4 +198,4 @@ const StarButton = ({ active, onClick }) => (
 const mapStateToProps = (state) => ({
   userComments: state.comment.userComments,
 });
-export default connect(mapStateToProps, { postComment, patchBooking })(Invoice);
+export default connect(mapStateToProps, { postComment })(Invoice);

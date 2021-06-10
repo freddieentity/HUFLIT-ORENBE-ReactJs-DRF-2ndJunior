@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const baseURL = "http://127.0.0.1:8000";
+const baseURL = process.env.REACT_APP_BACKEND_API;
 const hotelConfig = {
   headers: {
     "content-type": "multipart/form-data",

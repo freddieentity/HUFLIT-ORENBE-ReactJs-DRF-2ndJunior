@@ -8,8 +8,6 @@ import { FcAddImage } from "react-icons/fc";
 import { connect } from "react-redux";
 import { patchUser } from "../../redux/actions/auth";
 
-const baseURL = process.env.REACT_APP_BACKEND_API;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -193,7 +191,7 @@ function PersonalInformation({ user, patchUser }) {
                   <Image
                     width={300}
                     height={250}
-                    src={baseURL + "/media/" + user.avatar}
+                    src={user.avatar}
                     alt={user.name}
                   />
                 </div>

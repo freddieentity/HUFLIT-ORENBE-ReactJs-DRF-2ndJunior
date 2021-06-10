@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+const baseURL = process.env.REACT_APP_BACKEND_API;
 export const SimpleCarousel = ({ roomImages }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -42,15 +43,13 @@ export const SimpleCarousel = ({ roomImages }) => {
       >
         {roomImages.map((ri) => (
           <div className="slick-slide">
-            {/* <h6 className="slick-slide-title"></h6> */}
             <img
               width={800}
               height={400}
               className="slick-slide-image"
               alt="carousel"
-              src={`http://127.0.0.1:8000${ri.image}`}
+              src={`${baseURL}${ri.image}`}
             />
-            {/* <label className="slick-slide-label"></label> */}
           </div>
         ))}
       </Slider>
@@ -68,7 +67,7 @@ export const SimpleCarousel = ({ roomImages }) => {
                   height={100}
                   className="slick-slide-image"
                   alt="carousel"
-                  src={`http://127.0.0.1:8000${ri.image}`}
+                  src={`${baseURL}${ri.image}`}
                 />
               </div>
             ))}

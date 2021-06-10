@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = `http://127.0.0.1:8000`;
+const baseURL = process.env.REACT_APP_BACKEND_API;
 
 export const getHotelTypes = async () => {
   return await axios.get(`${baseURL}/api/hotels/hoteltypes/`);

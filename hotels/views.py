@@ -13,6 +13,7 @@ from datetime import date, timedelta, datetime
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 import json
+from django.db.models import Count
 
 
 ###
@@ -980,3 +981,15 @@ class CommentsView(APIView):
         queryset.delete()
 
         return Response({'success': 'Deleted successfully'})
+
+
+
+class ReportView(APIView):
+    permission_classes = (permissions.AllowAny, )
+    # serializer_class = HotelSerializer
+    # pagination_class = None
+
+    def get(self, request):
+        result = (Booking.objects.values('hotel_id__name').annotate(bookingRateCount=Count('hotel_id__name')).order_by('-bookingRateCount')[:5])
+        print(result)
+        return Response(result)

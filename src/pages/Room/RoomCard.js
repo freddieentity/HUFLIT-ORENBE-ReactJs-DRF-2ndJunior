@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "../../components/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -80,23 +79,15 @@ export default function RoomCard({ room }) {
             </CardContent>
           </Link>
           <CardContent>
-            <Button
-              primary="false"
-              css={`
-                max-width: 80px;
-              `}
-              style={{ cursor: "default" }}
-            >
-              {room.is_available ? (
-                <Link to={`/booking/${room.id}`} style={{ color: "white" }}>
-                  Book Now!
-                </Link>
-              ) : (
-                <Link to={`/search/`} style={{ color: "#942e26" }}>
-                  Unavaiable
-                </Link>
-              )}
-            </Button>
+            {room.is_available ? (
+              <Link to={`/booking/${room.id}`} style={{ color: "white" }}>
+                <button className="custom-button">Book Now!</button>
+              </Link>
+            ) : (
+              <Link to={`/search/`} style={{ color: "#942e26" }}>
+                <button className="custom-button">Unavailable</button>
+              </Link>
+            )}
           </CardContent>
         </Card>
       </Col>

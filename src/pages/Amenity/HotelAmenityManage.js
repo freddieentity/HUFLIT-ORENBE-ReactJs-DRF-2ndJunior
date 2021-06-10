@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-function HotelAmenityManage() {
+function HotelAmenityManage({ hotel, mode }) {
   const classes = useStyles();
   return (
     <Paper className={classes.pageContent}>

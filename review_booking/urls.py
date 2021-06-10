@@ -4,13 +4,14 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+# from rest_framework_simplejwt.views import TokenRefreshView
 from accounts.views import CustomTokenObtainPairView #type: ignore
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-    path('api/token', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/jwt/create/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+    path('auth/', include('djoser.social.urls')),
     path('api/accounts/', include('accounts.urls')),
     path('api/hotels/', include('hotels.urls')),
     path('api/contacts/', include('contacts.urls')),

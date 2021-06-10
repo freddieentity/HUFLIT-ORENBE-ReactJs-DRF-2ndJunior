@@ -28,6 +28,11 @@ import PartnerBooking from "./pages/PartnerBooking/PartnerBooking";
 import PartnerUserInfo from "./pages/PartnerUserInfo/PartnerUserInfo";
 import Form from "./components/Form";
 import Contact from "./pages/Contact/Contact";
+import ResetPassword from "./pages/Login/ResetPassword";
+import ResetPasswordConfirm from "./pages/Login/ResetPasswordConfirm";
+import Activate from "./pages/Login/Activate";
+import Main from "./pages/Report/Main";
+import Facebook from "./pages/Login/Facebook";
 
 function App() {
   return (
@@ -44,6 +49,15 @@ function App() {
           <Route exact path="/rooms/:slug" component={DetailRoom} />
           <Route exact path="/search" component={HotelSearchList} />
           <Route exact path="/contact" component={Contact} />
+          <Route exact path="/reset_password" component={ResetPassword} />
+          <Route exact path="/activate/:uid/:token" component={Activate} />
+          <Route exact path="/report" component={Main} />
+          <Route exact path="/facebook" component={Facebook} />
+          <Route
+            exact
+            path="/password/reset/confirm/:uid/:token"
+            component={ResetPasswordConfirm}
+          />
           <PrivateRoute
             exact
             path="/personal/:email"

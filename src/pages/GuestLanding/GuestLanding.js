@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dropdown from "../../components/Dropdown";
 import NavBar from "../../components/NavBar";
 import Hero from "./Hero";
@@ -8,12 +8,25 @@ import Search from "./Search";
 import About from "./About";
 import Feature from "./Feature";
 import Works from "./Works";
+import Main from "../Report/Main";
 
 function GuestLanding() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
+
+  let title = "EXPLORE THE BEYONDS";
+  useEffect(() => {
+    if (index < title.length) {
+      setTimeout(() => {
+        setText((text) => text + title[index]);
+        setIndex(index + 1);
+      }, 40);
+    }
+  }, [index, title]);
 
   return (
     <>
@@ -22,10 +35,15 @@ function GuestLanding() {
       <Hero slides={sliderData} />
       <hr className="hrgradient" />
       <h1 style={{ textAlign: "center" }}>
-        <strong>EXPLORE THE BEYONDS</strong>
+        <strong>{text}</strong>
       </h1>
       <hr className="hrgradient" />
-      <Search id="hotelsearch" />
+      <div>
+        <div className="textAni">
+          <Search id="hotelsearch" />
+          <Main />
+        </div>
+      </div>
       <img
         src={`https://static.wixstatic.com/media/06fec4_1df8726e54984481ab8b580d2d5088d0.jpg`}
         alt="cover"

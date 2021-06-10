@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import { menuData } from "../data/menuData";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { connect } from "react-redux";
-import { logout } from "../redux/actions/auth";
+import { logout, checkAuthenticated, load_user } from "../redux/actions/auth";
 import PropTypes from "prop-types";
 
 const Nav = styled.nav`
@@ -59,7 +59,17 @@ const NavBtn = styled.div`
   }
 `;
 
-function NavBar({ auth: { isAuthenticated, loading, user }, logout, toggle }) {
+function NavBar({
+  auth: { isAuthenticated, loading, user },
+  logout,
+  toggle,
+  load_user,
+  checkAuthenticated,
+}) {
+  useEffect(() => {
+    checkAuthenticated();
+    load_user();
+  }, [checkAuthenticated, load_user]);
   return (
     <div style={{ position: "relative" }}>
       <Nav style={{ backgroundColor: "black" }}>
@@ -116,4 +126,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(NavBar);
+export default connect(mapStateToProps, {
+  logout,
+  checkAuthenticated,
+  load_user,
+})(NavBar);

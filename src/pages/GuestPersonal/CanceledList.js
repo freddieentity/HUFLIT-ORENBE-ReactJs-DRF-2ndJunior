@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,13 +10,6 @@ import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import DocumentPDF from "./DocumentPDF";
-import { patchBooking } from "../../redux/actions/booking";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { connect } from "react-redux";
 
 const baseURL = process.env.REACT_APP_BACKEND_API;
 
@@ -48,12 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GuestBookingItem({ gb, patchBooking }) {
-  const [open, setOpen] = useState(false);
+function GuestBookingItem({ gb }) {
   const classes = useStyles();
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Unpaid Booking List</h1>
+      <h1 style={{ textAlign: "center" }}>Canceled Booking List</h1>
       {!gb ? (
         <div style={{ textAlign: "center" }}>Nothing to show</div>
       ) : (
@@ -98,7 +90,7 @@ function GuestBookingItem({ gb, patchBooking }) {
                         color="secondary"
                         disabled={loading}
                       >
-                        {loading ? "Loading..." : "E-Deposit Invoice"}
+                        {loading ? "Loading..." : "E-Cancelation Invoice"}
                       </Button>
                     </a>
                   )}
@@ -111,52 +103,6 @@ function GuestBookingItem({ gb, patchBooking }) {
                   </Button>
                 </IconButton>
               </Link>
-              <IconButton aria-label="next">
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setOpen(!open)}
-                >
-                  Cancel
-                </Button>
-                <Dialog
-                  open={open}
-                  onClose={() => setOpen(!open)}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to cancel the booking?"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      <strong>Hotel Cancelation Policy</strong>
-                    </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
-                      You would rechare 30% if you cancel before 72 hours from
-                      the check-in. Within the duration of 72 hours before the
-                      checkin or after, if you don't contact, you would loose
-                      100% payment or total deposit with no refund.
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setOpen(!open)} color="primary">
-                      Disagree
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setOpen(!open);
-                        patchBooking(gb.id, { is_cancel: true });
-                      }}
-                      color="primary"
-                      autoFocus
-                    >
-                      Agree
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </IconButton>
             </div>
           </div>
           <CardMedia
@@ -170,4 +116,4 @@ function GuestBookingItem({ gb, patchBooking }) {
   );
 }
 
-export default connect(null, { patchBooking })(GuestBookingItem);
+export default GuestBookingItem;

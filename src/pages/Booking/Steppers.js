@@ -39,6 +39,8 @@ import { connect } from "react-redux";
 import { postBooking } from "../../redux/actions/booking";
 import StripeInput from "../../components/StripeInput";
 import peak from "../../constants/peak";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const style = makeStyles((theme) => ({
   button: {
@@ -83,7 +85,10 @@ const duration = () => {
 };
 const totalSteps = 3;
 const ContactForm = () => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   return (
     <>
       <Grid item xs={12} sm={12}>
@@ -97,6 +102,11 @@ const ContactForm = () => {
               variant="outlined"
               placeholder="Enter Your Contact's Name"
               fullWidth
+              helperText={
+                errors.guest_name && (
+                  <p style={{ color: "red" }}>{errors.guest_name.message}</p>
+                )
+              }
               margin="normal"
               {...field}
             />
@@ -114,6 +124,11 @@ const ContactForm = () => {
               variant="outlined"
               placeholder="Enter Your Reachable mobile number"
               fullWidth
+              helperText={
+                errors.guest_phone && (
+                  <p style={{ color: "red" }}>{errors.guest_phone.message}</p>
+                )
+              }
               margin="normal"
               {...field}
             />
@@ -131,6 +146,11 @@ const ContactForm = () => {
               variant="outlined"
               placeholder="Enter Your Contact's email address"
               fullWidth
+              helperText={
+                errors.guest_email && (
+                  <p style={{ color: "red" }}>{errors.guest_email.message}</p>
+                )
+              }
               margin="normal"
               {...field}
             />
@@ -141,20 +161,7 @@ const ContactForm = () => {
   );
 };
 const PaymentForm = ({ singleRoom }) => {
-  // const { control } = useFormContext();
   const [onlinePayment, setOnlinePayment] = useState(false);
-  const cardsLogo = [
-    "amex",
-    "cirrus",
-    "diners",
-    "dankort",
-    "discover",
-    "jcb",
-    "maestro",
-    "mastercard",
-    "visa",
-    "visaelectron",
-  ];
   onlinePayment
     ? sessionStorage.setItem(
         "payment",
@@ -175,16 +182,14 @@ const PaymentForm = ({ singleRoom }) => {
           <Typography variant="h6">Payment Partnerships</Typography>
         </Grid>
         <Grid container item xs={12} sm={9} justify="space-between">
-          {cardsLogo.map((e) => (
-            <img
-              key={e}
-              src={`../cards/${e}.png`}
-              alt={e}
-              width="50px"
-              align="bottom"
-              style={{ padding: "0 5px" }}
-            />
-          ))}
+          <img
+            key={1}
+            src={`https://www.pngitem.com/pimgs/m/291-2918799_stripe-payment-icon-png-transparent-png.png`}
+            alt={"payment"}
+            width="200px"
+            align="bottom"
+            style={{ padding: "0 5px" }}
+          />
         </Grid>
       </Grid>
       <Grid item xs={12} sm={4}>
@@ -422,7 +427,10 @@ const StepContent = ({ step, singleRoom, roomBookings }) => {
 const Steppers = ({ postBooking, singleRoom, hotelRoom, roomBookings }) => {
   const classes = style();
   const [loading, setLoading] = useState(false);
-  const methods = useForm();
+  const methods = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(ContactSchema),
+  });
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = (data) => {
@@ -482,7 +490,10 @@ const Steppers = ({ postBooking, singleRoom, hotelRoom, roomBookings }) => {
         >
           {activeStep === totalSteps && !loading ? (
             <div>
-              <img alt="thankyou" src={`../cards/thankyou.png`} />
+              <img
+                alt="thankyou"
+                src={`https://ik.imagekit.io/tvlk/image/imageResource/2017/07/24/1500886087756-48f7e3513ab4f1227fc7a1e568a6ddc8.png?tr=dpr-2,h-151,w-130`}
+              />
               <Button onClick={handleReset} className={classes.button}>
                 Re-Book?
               </Button>
@@ -532,6 +543,23 @@ const Steppers = ({ postBooking, singleRoom, hotelRoom, roomBookings }) => {
     </>
   );
 };
+const ContactSchema = yup.object().shape({
+  guest_name: yup
+    .string()
+    .min(3, "At least 3 characters")
+    .required("This field is required"),
+  guest_email: yup
+    .string()
+    .email("Please input the right email format")
+    .lowercase("Please use lowercases only")
+    .required("This field is required"),
+  guest_phone: yup
+    .string()
+    .matches(/^[0-9]+$/, "It doesn't look like a decent phone number")
+    .min(10, "Phone number must be 10 characters")
+    .max(10, "Phone number must be 10 characters")
+    .required("This field is required"),
+});
 
 const mapStateToProps = (state) => ({
   hotelRoom: state.hotel.hotelRoom,

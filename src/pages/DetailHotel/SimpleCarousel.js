@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+const baseURL = process.env.REACT_APP_BACKEND_API;
 export const SimpleCarousel = ({ hotelImages }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -41,15 +42,13 @@ export const SimpleCarousel = ({ hotelImages }) => {
       >
         {hotelImages.map((hi) => (
           <div className="slick-slide" key={hi.id}>
-            {/* <h6 className="slick-slide-title"></h6> */}
             <img
               alt="Carousel"
               width={800}
               height={400}
               className="slick-slide-image"
-              src={`http://127.0.0.1:8000${hi.image}`}
+              src={`${baseURL}${hi.image}`}
             />
-            {/* <label className="slick-slide-label"></label> */}
           </div>
         ))}
       </Slider>
@@ -67,7 +66,7 @@ export const SimpleCarousel = ({ hotelImages }) => {
                   width={160}
                   height={100}
                   className="slick-slide-image"
-                  src={`http://127.0.0.1:8000${hi.image}`}
+                  src={`${baseURL}${hi.image}`}
                 />
               </div>
             ))}

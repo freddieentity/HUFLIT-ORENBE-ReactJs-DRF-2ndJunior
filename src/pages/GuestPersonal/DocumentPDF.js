@@ -46,6 +46,9 @@ function DocumentPDF({ gb }) {
                   ? "Paid at: " + gb.payment_at
                   : "Status: Pay upon check-in"}
               </Text>
+              <Text style={{ color: "red" }}>
+                {gb.is_cancel && "***DISCLAIMER: BOOKING HAS BEEN CANCELED***"}
+              </Text>
             </View>
 
             <View style={{ textAlign: "left", padding: "20px 0px 20px 0px" }}>
@@ -66,7 +69,13 @@ function DocumentPDF({ gb }) {
             {gb.is_paid && (
               <Image
                 style={{ height: "150px", width: "150px" }}
-                src={`./cards/paid.jpg`}
+                src={`https://image.freepik.com/free-vector/paid-stamp_1017-8234.jpg`}
+              />
+            )}
+            {!gb.is_paid && gb.payment > 0 && (
+              <Image
+                style={{ height: "150px", width: "150px" }}
+                src={`https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190203829/116205220-partial-payment-stamp-seal-watermark-with-distress-style-designed-with-rectangle-circles-and-stars-b.jpg`}
               />
             )}
           </View>

@@ -5,26 +5,43 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
 
-const schema = yup.object().shape({
-  email: yup
+const SignUpSchema = yup.object().shape({
+  name: yup.string().min(3, "At least 3 characters").required("This field is required"),
+  email: yup.string().email('Please input the right email format').required("This field is required"),
+  password: yup
     .string()
-    .email("Email should have correct format")
-    .required("Email is a required field"),
+    .min(6, "Password must have at least 6 characters")
+    .required("This field is required"),
+  re_password: yup
+    .string()
+    .oneOf([yup.ref("password")], "Password doesn't match")
 });
 
 const FormSignUp = ({ setIsSubmitted, signup }) => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors }, } = useForm({
     mode: "onBlur",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(SignUpSchema),
   });
 
   const onSubmitSignUp = (data) => {
-    const {name, email, password, password2} = data;
+    const {name, email, password, re_password} = data;
     
-    signup({ name, email, password, password2 });
-    setIsSubmitted(true);
+    if(password === re_password){
+      signup({ name, email, password, re_password });
+      setIsSubmitted(true)
+    }
   }
+  const continueWithFacebook = async () => {
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_API}/auth/o/facebook/?redirect_uri=${process.env.REACT_APP_BACKEND_API}/facebook`)
+
+        window.location.replace(res.data.authorization_url);
+    } catch (err) {
+
+    }
+};
 
   return (
     <div className='form-content-right'>
@@ -42,7 +59,7 @@ const FormSignUp = ({ setIsSubmitted, signup }) => {
             placeholder='Enter your name'
             {...register("name", { required: true })}
           />
-          {/* {errors.username && <p>{errors.username}</p>} */}
+          {errors.name && <p>{errors.name.message}</p>}
         </div>
         <div className='form-inputs'>
           <label className='form-label'>Email</label>
@@ -53,7 +70,7 @@ const FormSignUp = ({ setIsSubmitted, signup }) => {
             placeholder='Enter your email'
             {...register("email", { required: true })}
           />
-          {/* {errors.email && <p>{errors.email}</p>} */}
+          {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div className='form-inputs'>
           <label className='form-label'>Password</label>
@@ -64,18 +81,18 @@ const FormSignUp = ({ setIsSubmitted, signup }) => {
             placeholder='Enter your password'
             {...register("password", { required: true })}
           />
-          {/* {errors.password && <p>{errors.password}</p>} */}
+          {errors.password && <p>{errors.password.message}</p>}
         </div>
         <div className='form-inputs'>
           <label className='form-label'>Confirm Password</label>
           <input
             className='form-input'
             type='password'
-            name='password2'
+            name='re_password'
             placeholder='Confirm your password'
-            {...register("password2", { required: true })}
+            {...register("re_password", { required: true })}
           />
-          {/* {errors.password2 && <p>{errors.password2}</p>} */}
+          {errors.re_password && <p>{errors.re_password.message}</p>}
         </div>
         <button className='form-input-btn' type='submit'>
           Sign up
@@ -83,14 +100,14 @@ const FormSignUp = ({ setIsSubmitted, signup }) => {
         <span className='form-input-login'>
           Already have an account? <Link to="/login">Sign In</Link> 
         </span>
+        
       </form>
+      <button className='btn btn-primary mt-3' onClick={continueWithFacebook}>
+                Continue With Facebook
+      </button>
     </div>
   );
 };
-
-// FormSignUp.propTypes = {
-//   login: PropTypes.func.isRequired,
-// }
 
 const mapStateToProps = state => ({
   

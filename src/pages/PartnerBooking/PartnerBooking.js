@@ -1,18 +1,24 @@
-import { Button } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { Table } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   getBookingsByPartner,
   patchBooking,
 } from "../../redux/actions/booking";
 import { FcAnswers, FcApproval } from "react-icons/fc";
+import { BiCheckShield } from "react-icons/bi";
+import { TiCancel } from "react-icons/ti";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   disabledrow: {
     backgroundColor: "#DCDCDC",
     // pointerEvents: "none",
+  },
+  canceledrow: {
+    backgroundColor: "#94312e",
+    //pointerEvents: "none",
   },
 });
 
@@ -22,6 +28,8 @@ function PartnerBooking({
   patchBooking,
 }) {
   const c = useStyles();
+  const [value, setValue] = useState("");
+
   useEffect(() => {
     getBookingsByPartner(sessionStorage.getItem("email"));
   }, [getBookingsByPartner]);
@@ -46,22 +54,28 @@ function PartnerBooking({
     {
       title: "From",
       dataIndex: "checkin",
+      sorter: (a, b) => Date.parse(a.checkin) - Date.parse(b.checkin),
     },
     {
       title: "To",
       dataIndex: "checkout",
+      sorter: (a, b) => Date.parse(a.checkout) - Date.parse(b.checkout),
     },
     {
       title: "Price",
       dataIndex: ["room_id", "base_price_per_night"],
+      sorter: (a, b) =>
+        a.room_id.base_price_per_night - b.room_id.base_price_per_night,
     },
     {
       title: "Payment",
       dataIndex: "payment",
+      sorter: (a, b) => a.payment - b.payment,
     },
     {
       title: "Paid",
       dataIndex: "is_paid",
+      sorter: (a, b) => a.is_paid - b.is_paid,
 
       render: (text, record) => (
         <Button
@@ -75,13 +89,39 @@ function PartnerBooking({
         </Button>
       ),
     },
+    {
+      title: "Cancel",
+      dataIndex: "is_cancel",
+      sorter: (a, b) => a.is_cancel - b.is_cancel,
+
+      render: (text, record) => (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            patchBooking(record.id, { is_cancel: !record.is_cancel });
+          }}
+        >
+          {record.is_cancel ? <TiCancel /> : <BiCheckShield />}
+        </Button>
+      ),
+    },
   ];
   return (
     <div>
+      <Input
+        placeholder="Search Name"
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+      />
       <Table
         columns={columns}
         dataSource={partnerBookings}
-        rowClassName={(record) => !record.is_paid && c.disabledrow}
+        rowClassName={(record) =>
+          record.is_cancel ? c.canceledrow : !record.is_paid && c.disabledrow
+        }
       />
     </div>
   );

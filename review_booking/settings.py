@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
 from datetime import timedelta
+from decouple import config
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-z)5h#rkpt=)t&q6qc7hruqiz$af9ze8^n!jcn$-dc+31guu$!^'
-
+# SECRET_KEY = 'django-insecure-z)5h#rkpt=)t&q6qc7hruqiz$af9ze8^n!jcn$-dc+31guu$!^'
+SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
@@ -26,9 +27,14 @@ INSTALLED_APPS = [
     'hotels',
     'django_filters',
     'contacts',
+    'djoser',
+    'social_django',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
 MIDDLEWARE = [
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,6 +58,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -66,18 +74,22 @@ WSGI_APPLICATION = 'review_booking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rnb',
-        'USER': 'postgres',
-        'PASSWORD': '220641',
-        'HOST': 'localhost'
+        # 'NAME': 'rnb',
+        # 'USER': 'postgres',
+        # 'PASSWORD': '220641',
+        # 'HOST': 'localhost'
+        'NAME': config('BE_DB_NAME'),
+        'USER': config('BE_DB_USER'),
+        'PASSWORD': config('BE_DB_PASSWORD'),
+        'HOST': config('BE_DB_HOST')
     }
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'orenbeworldwide@gmail.com'
-EMAIL_HOST_PASSWORD = 'mbqhnnalxfckblnl'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 
@@ -138,11 +150,40 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 3
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 FILE_UPLOAD_PERMISSIONS=0o640
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'SEND_CONFIRMATION_EMAIL': True,
+    'SET_USERNAME_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [config('SOCIAL_AUTH_ALLOWED_REDIRECT_URIS')],
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.UserCreateSerializer',
+        'user': 'accounts.serializers.UserCreateSerializer',
+        'current_user': 'accounts.serializers.UserCreateSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+    }
+}
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
@@ -151,6 +192,13 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
+}
+
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'email, first_name, last_name'
 }
 
 # try:

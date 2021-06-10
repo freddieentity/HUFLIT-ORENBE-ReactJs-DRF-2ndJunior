@@ -914,3 +914,50 @@ i {
   outline: none;
 }
 
+.textAni {
+  padding: 0 1rem;
+  height: 100%;
+  width: 100%;
+  /* background-color: #111; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: bgFaseIn 1s ease-in;
+}
+
+h1 {
+  font-size: 2.5rem;
+  animation: opacity 1 ease-in-out, moveUp 3s ease-in 1s;
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes moveUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes bgFaseIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+

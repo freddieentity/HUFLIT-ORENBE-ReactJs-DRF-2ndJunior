@@ -13,9 +13,11 @@ import GuestBookingItem from "./GuestBookingItem";
 import SavedHotelItem from "./SavedHotelItem";
 import Invoice from "./Invoice";
 import Paid from "./Paid";
+import CanceledList from "./CanceledList";
 import { GrDocumentMissing } from "react-icons/gr";
 import { GiBanknote } from "react-icons/gi";
 import { RiHistoryLine } from "react-icons/ri";
+import { ImCancelCircle } from "react-icons/im";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -98,6 +100,11 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
             aria-label="shopping"
             {...a11yProps(4)}
           />
+          <Tab
+            icon={<ImCancelCircle fontSize="24px" />}
+            aria-label="cancel"
+            {...a11yProps(5)}
+          />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -127,6 +134,14 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
             (gb) =>
               gb.is_paid &&
               Date.parse(gb.checkout) < Date.now() && <Invoice gb={gb} />
+          )}
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        {guestBookings &&
+          guestBookings.map(
+            (gb) =>
+              gb.is_cancel &&
+              Date.parse(gb.checkout) > Date.now() && <CanceledList gb={gb} />
           )}
       </TabPanel>
     </div>

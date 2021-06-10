@@ -278,24 +278,26 @@ function HotelManage({
             </Row>
             <Row>
               <Col span={12}>
-                <Form.Item
-                  name="business_license"
-                  tooltip="Other information about the hotel."
-                  label="Hotel business license"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input hotel business license!",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Enter business_license"
-                    {...register("business_license", { required: true })}
-                    autoFocus
-                  />
-                </Form.Item>
+                {mode === "add" && (
+                  <Form.Item
+                    name="business_license"
+                    tooltip="Other information about the hotel."
+                    label="Hotel business license"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input hotel business license!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="text"
+                      placeholder="Enter business license"
+                      {...register("business_license", { required: true })}
+                      autoFocus
+                    />
+                  </Form.Item>
+                )}
               </Col>
               <Col span={12}>
                 <Form.Item

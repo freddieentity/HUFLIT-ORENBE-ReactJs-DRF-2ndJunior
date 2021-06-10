@@ -31,6 +31,8 @@ function Amenity({
   const [iRDMV, setIRDMV] = useState(false);
   const [iHMV, setIHMV] = useState(false);
   const [iHDMV, setIHDMV] = useState(false);
+  const [roomMode, setRoomMode] = useState("add");
+  const [hotelMode, setHotelMode] = useState("add");
 
   useEffect(() => {
     getHotelAmenities();
@@ -50,7 +52,12 @@ function Amenity({
       align: "center",
       render: (text, room) => (
         <>
-          <Button onClick={() => setIRMV(true)}>
+          <Button
+            onClick={() => {
+              setIRMV(true);
+              setRoomMode("edit");
+            }}
+          >
             <GrFormEdit />
           </Button>
           <Modal
@@ -59,10 +66,12 @@ function Amenity({
             width="50vw"
             title="Specification"
             visible={iRMV}
-            onCancel={() => setIRMV(false)}
+            onCancel={() => {
+              setIRMV(false);
+              setRoomMode("add");
+            }}
           >
-            room
-            <RoomAmenityManage />
+            <RoomAmenityManage room={room} mode={roomMode} />
           </Modal>
           <Button onClick={() => setIRDMV(true)}>
             <FiDelete />
@@ -93,7 +102,12 @@ function Amenity({
       align: "center",
       render: (text, hotel) => (
         <>
-          <Button onClick={() => setIHMV(true)}>
+          <Button
+            onClick={() => {
+              setIHMV(true);
+              setHotelMode("edit");
+            }}
+          >
             <GrFormEdit />
           </Button>
           <Modal
@@ -102,10 +116,12 @@ function Amenity({
             width="50vw"
             title="Specification"
             visible={iHMV}
-            onCancel={() => setIHMV(false)}
+            onCancel={() => {
+              setIHMV(false);
+              setHotelMode("add");
+            }}
           >
-            hotel
-            <HotelAmenityManage />
+            <HotelAmenityManage hotel={hotel} mode={hotelMode} />
           </Modal>
           <Button onClick={() => setIHDMV(true)}>
             <FiDelete />
