@@ -1,11 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusCircleFilled,
-  PartitionOutlined,
-} from "@ant-design/icons";
+import BackspaceIcon from "@material-ui/icons/Backspace";
+import EditIcon from "@material-ui/icons/Edit";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 import { Button, Layout, Table } from "antd";
 import Loading from "../../components/Loading";
 import { toast } from "react-toastify";
@@ -98,12 +96,12 @@ function HotelType() {
               setMode("edit");
               setShowDrawer(true);
             }}
-            icon={<EditOutlined />}
+            icon={<EditIcon />}
           ></Button>
           <Button
             className="btn btn-warning mt-1"
             onClick={() => handleDelete(hotelType.id, hotelType.name)}
-            icon={<DeleteOutlined />}
+            icon={<BackspaceIcon />}
           ></Button>
         </span>
       ),
@@ -118,14 +116,14 @@ function HotelType() {
           ) : (
             <>
               <div style={{ textAlign: "center" }}>
-                <PartitionOutlined />
+                <AssessmentIcon />
                 <h4>Hotel Types Management</h4>
               </div>
 
               <Button
                 type="primary"
                 className="btn btn-success mt-1"
-                icon={<PlusCircleFilled />}
+                icon={<PostAddIcon />}
                 onClick={() => setShowDrawer(true)}
               >
                 Add

@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import { getHotelImages, postHotelImage } from "../../redux/actions/hotelImage";
 import { connect } from "react-redux";
 import HotelAddressForm from "./HotelAddressForm";
-import { AppstoreAddOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
+import AppsIcon from "@material-ui/icons/Apps";
+import CameraIcon from "@material-ui/icons/Camera";
 
 const { TabPane } = Tabs;
 const baseURL = process.env.REACT_APP_BACKEND_API;
@@ -56,7 +57,7 @@ function HotelSpecification({ hotel, postHotelImage, images, getHotelImages }) {
         <TabPane
           tab={
             <span>
-              <AppstoreAddOutlined />
+              <AppsIcon />
               Address
             </span>
           }
@@ -68,7 +69,7 @@ function HotelSpecification({ hotel, postHotelImage, images, getHotelImages }) {
         <TabPane
           tab={
             <span>
-              <VideoCameraAddOutlined />
+              <CameraIcon />
               Upload
             </span>
           }

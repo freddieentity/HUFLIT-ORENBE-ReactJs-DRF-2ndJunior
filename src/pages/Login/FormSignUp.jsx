@@ -4,6 +4,7 @@ import {signup} from "../../redux/actions/auth" ;
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
+import FacebookIcon from '@material-ui/icons/Facebook';
 import * as yup from "yup";
 import axios from "axios";
 
@@ -103,7 +104,7 @@ const FormSignUp = ({ setIsSubmitted, signup }) => {
         
       </form>
       <button className='btn btn-primary mt-3' onClick={continueWithFacebook}>
-                Continue With Facebook
+        <FacebookIcon />
       </button>
     </div>
   );

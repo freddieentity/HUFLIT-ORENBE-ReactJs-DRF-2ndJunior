@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Rate } from "antd";
-import { AntDesignOutlined } from "@ant-design/icons";
+import PersonIcon from "@material-ui/icons/Person";
 import { Grid, Paper } from "@material-ui/core";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 
@@ -14,7 +14,7 @@ function CommentCard({ comment }) {
           <Avatar
             size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
             src={baseURL + comment.booking_id.user.avatar}
-            icon={<AntDesignOutlined />}
+            icon={<PersonIcon />}
           />
           <h6>{comment.booking_id.user.name}</h6>
           <p style={{ fontSize: "12px" }}>{comment.booking_id.user.email}</p>

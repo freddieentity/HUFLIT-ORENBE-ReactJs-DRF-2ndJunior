@@ -12,12 +12,10 @@ import {
   Checkbox,
 } from "antd";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import {
-  HomeOutlined,
-  StarOutlined,
-  DollarCircleOutlined,
-  FormOutlined,
-} from "@ant-design/icons";
+import HomeWorkIcon from "@material-ui/icons/HomeWork";
+import GradeIcon from "@material-ui/icons/Grade";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import PolicyIcon from "@material-ui/icons/Policy";
 import IconButton from "@material-ui/core/IconButton";
 import { useForm, Controller } from "react-hook-form";
 import { connect } from "react-redux";
@@ -147,7 +145,7 @@ function HotelManage({
                   rules={[{ required: true, message: "Please input subname!" }]}
                 >
                   <Input
-                    prefix={<HomeOutlined className="site-form-item-icon" />}
+                    prefix={<HomeWorkIcon className="site-form-item-icon" />}
                     type="text"
                     placeholder="Enter subname"
                     {...register("sub_name", { required: true })}
@@ -206,7 +204,7 @@ function HotelManage({
                 >
                   <Input
                     prefix={
-                      <DollarCircleOutlined className="site-form-item-icon" />
+                      <MonetizationOnIcon className="site-form-item-icon" />
                     }
                     type="text"
                     placeholder="Enter base price per night"
@@ -231,7 +229,7 @@ function HotelManage({
                   ]}
                 >
                   <Input
-                    prefix={<StarOutlined className="site-form-item-icon" />}
+                    prefix={<GradeIcon className="site-form-item-icon" />}
                     placeholder="Enter rating"
                     {...register("rating", { required: true })}
                   />
@@ -249,7 +247,7 @@ function HotelManage({
                   rules={[{ required: true, message: "Please input policy!" }]}
                 >
                   <Input
-                    prefix={<FormOutlined className="site-form-item-icon" />}
+                    prefix={<PolicyIcon className="site-form-item-icon" />}
                     type="text"
                     placeholder="Enter hotel policy"
                     name="policy"

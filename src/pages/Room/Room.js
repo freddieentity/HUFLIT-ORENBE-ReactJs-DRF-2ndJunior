@@ -5,7 +5,7 @@ import { Table, Layout, Button } from "antd";
 import React, { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import { Button as BlackButton } from "../../components/Button";
-import { EditOutlined } from "@ant-design/icons";
+import EditIcon from "@material-ui/icons/Edit";
 import RoomManage from "./RoomManage";
 import { getRooms, deleteRoom } from "../../redux/actions/room";
 import { getHotels } from "../../redux/actions/hotel";
@@ -69,7 +69,7 @@ function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
               }));
               setShowDrawer(true);
             }}
-            icon={<EditOutlined />}
+            icon={<EditIcon />}
           ></Button>
           <Button
             className="btn btn-warning mt-1"

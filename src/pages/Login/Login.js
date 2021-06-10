@@ -4,6 +4,7 @@ import { login } from "../../redux/actions/auth";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import "./Form.css";
+import FacebookIcon from "@material-ui/icons/Facebook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
@@ -90,7 +91,7 @@ const Login = ({ login, isAuthenticated, user }) => {
             Forget Password? <Link to="/reset_password">Reset</Link>
           </span>
           <span className="btn btn-primary mt-3" onClick={continueWithFacebook}>
-            Continue With Facebook
+            <FacebookIcon />
           </span>
         </form>
       </div>

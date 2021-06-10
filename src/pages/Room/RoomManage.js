@@ -12,7 +12,7 @@ import {
 } from "antd";
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { DollarCircleOutlined } from "@ant-design/icons";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
@@ -160,7 +160,7 @@ function RoomManage({
                 >
                   <Input
                     prefix={
-                      <DollarCircleOutlined className="site-form-item-icon" />
+                      <MonetizationOnIcon className="site-form-item-icon" />
                     }
                     type="text"
                     placeholder="Base price per night"

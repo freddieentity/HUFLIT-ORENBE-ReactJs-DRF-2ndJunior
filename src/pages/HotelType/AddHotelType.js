@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Drawer } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import { useForm } from "react-hook-form";
 
 function AddHotelType({
@@ -43,7 +43,7 @@ function AddHotelType({
           rules={[{ required: true, message: "Please input the hotel type!" }]}
         >
           <Input
-            prefix={<HomeOutlined className="site-form-item-icon" />}
+            prefix={<HomeWorkIcon className="site-form-item-icon" />}
             type="text"
             placeholder="Enter hotel type"
             label="Hotel Type"

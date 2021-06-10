@@ -3,7 +3,7 @@ import axios from "axios";
 import { Row, Col, Rate } from "antd";
 import { Chip, Paper } from "@material-ui/core";
 import { SimpleCarousel } from "./SimpleCarousel";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import OfflinePinIcon from "@material-ui/icons/OfflinePin";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import RoomHotelList from "./RoomHotelList";
 import NavBar from "../../components/NavBar";
@@ -136,7 +136,7 @@ function DetailHotel({ match, postSavedHotel }) {
               >
                 <div style={{ color: "green", textAlign: "right" }}>
                   <h6 style={{ fontSize: "10px" }}>Online check-in</h6>
-                  <CheckCircleOutlined size="large" />
+                  <OfflinePinIcon size="large" />
                 </div>
                 <div style={{ margin: "10px 0px 50px 10px" }}>
                   <h5 style={{ fontSize: "14px" }}>Policy</h5>
