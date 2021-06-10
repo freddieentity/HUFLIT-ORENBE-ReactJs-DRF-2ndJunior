@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function RoomCard({ room }) {
+export default function PartnerRoom({ room }) {
   const classes = useStyles();
   return (
     <Row span={24}>
@@ -78,17 +78,6 @@ export default function RoomCard({ room }) {
               </Typography>
             </CardContent>
           </Link>
-          <CardContent>
-            {room.is_available ? (
-              <Link to={`/booking/${room.id}`} style={{ color: "white" }}>
-                <button className="custom-button">Book Now!</button>
-              </Link>
-            ) : (
-              <Link to={`/search/`} style={{ color: "#942e26" }}>
-                <button className="custom-button">Unavailable</button>
-              </Link>
-            )}
-          </CardContent>
         </Card>
       </Col>
     </Row>

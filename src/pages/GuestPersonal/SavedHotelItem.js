@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Rate, Row, Card } from "antd";
 import { Link } from "react-router-dom";
-import { FcLikePlaceholder } from "react-icons/fc";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { connect } from "react-redux";
 import { deleteSavedHotel } from "../../redux/actions/savedHotel";
 const { Meta } = Card;
@@ -34,7 +34,7 @@ function SavedHotelItem({ savedHotels, deleteSavedHotel }) {
                     height: "100%",
                   }}
                 >
-                  <FcLikePlaceholder
+                  <FavoriteIcon
                     style={{ fontSize: "40px" }}
                     onClick={() => deleteSavedHotel(h.id)}
                   />

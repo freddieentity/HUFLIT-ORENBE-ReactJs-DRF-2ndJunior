@@ -7,7 +7,6 @@ class HotelTypeAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
     search_fields = ('name',)
     list_per_page = 25
-    change_list_template = 'admin/hoteltype/hoteltype_change_list.html'
 
 
 class HotelAdmin(admin.ModelAdmin):

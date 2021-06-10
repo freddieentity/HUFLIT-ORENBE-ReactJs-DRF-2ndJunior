@@ -3,10 +3,9 @@ import { Col, Row, Table } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
 import { Button as BB } from "../../components/Button";
-import { AiFillFileAdd } from "react-icons/ai";
-import { MdLibraryAdd } from "react-icons/md";
-import { GrFormEdit } from "react-icons/gr";
-import { FiDelete } from "react-icons/fi";
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import EditIcon from "@material-ui/icons/Edit";
+import BackspaceIcon from "@material-ui/icons/Backspace";
 import { connect } from "react-redux";
 import {
   getHotelAmenities,
@@ -58,7 +57,7 @@ function Amenity({
               setRoomMode("edit");
             }}
           >
-            <GrFormEdit />
+            <EditIcon />
           </Button>
           <Modal
             style={{ textAlign: "center" }}
@@ -74,7 +73,7 @@ function Amenity({
             <RoomAmenityManage room={room} mode={roomMode} />
           </Modal>
           <Button onClick={() => setIRDMV(true)}>
-            <FiDelete />
+            <BackspaceIcon />
           </Button>
           <Modal
             onOk={() => deleteRoomAmenity(room.id)}
@@ -108,7 +107,7 @@ function Amenity({
               setHotelMode("edit");
             }}
           >
-            <GrFormEdit />
+            <EditIcon />
           </Button>
           <Modal
             style={{ textAlign: "center" }}
@@ -124,7 +123,7 @@ function Amenity({
             <HotelAmenityManage hotel={hotel} mode={hotelMode} />
           </Modal>
           <Button onClick={() => setIHDMV(true)}>
-            <FiDelete />
+            <BackspaceIcon />
           </Button>
           <Modal
             onOk={() => deleteRoomAmenity(hotel.id)}
@@ -159,7 +158,7 @@ function Amenity({
               style={{ color: "white" }}
               onClick={() => setIRMV(true)}
             >
-              <AiFillFileAdd />
+              <NoteAddIcon />
               Room
             </BB>
           </Col>
@@ -172,7 +171,7 @@ function Amenity({
               style={{ color: "white" }}
               onClick={() => setIHMV(true)}
             >
-              <MdLibraryAdd />
+              <NoteAddIcon />
               Hotel
             </BB>
           </Col>

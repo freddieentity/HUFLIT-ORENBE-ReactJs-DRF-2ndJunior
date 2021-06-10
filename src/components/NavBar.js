@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import { menuData } from "../data/menuData";
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import DehazeIcon from "@material-ui/icons/Dehaze";
 import { connect } from "react-redux";
 import { logout, checkAuthenticated, load_user } from "../redux/actions/auth";
 import PropTypes from "prop-types";
@@ -30,7 +30,7 @@ const Logo = styled(Link)`
   ${NavLink}
   font-style: italic;
 `;
-const MenuBars = styled(FaBars)`
+const MenuBars = styled.div`
   display: none;
 
   @media screen and (max-width: 768px) {
@@ -80,7 +80,9 @@ function NavBar({
             height="50px"
           />
         </Logo>
-        <MenuBars onClick={toggle} />
+        <MenuBars onClick={toggle}>
+          <DehazeIcon />
+        </MenuBars>
         <NavMenu>
           {menuData.map((item, index) => (
             <NavMenuLinks to={item.link} key={index}>

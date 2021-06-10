@@ -10,9 +10,9 @@ import RoomManage from "./RoomManage";
 import { getRooms, deleteRoom } from "../../redux/actions/room";
 import { getHotels } from "../../redux/actions/hotel";
 import { connect } from "react-redux";
-import RoomCard from "./RoomCard";
 import RoomImageList from "./RoomImageList";
 import { Link } from "react-router-dom";
+import PartnerRoom from "./PartnerRoom";
 
 function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
   const [mode, setMode] = useState("add");
@@ -32,7 +32,7 @@ function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
       render: (text, r) => {
         return (
           <Link to={`/rooms/${r.slug}`}>
-            <RoomCard room={r} />
+            <PartnerRoom room={r} />
           </Link>
         );
       },

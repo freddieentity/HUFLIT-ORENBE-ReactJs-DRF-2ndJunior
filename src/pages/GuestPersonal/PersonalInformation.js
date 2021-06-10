@@ -4,9 +4,10 @@ import { Paper } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { Form, Input, Button, Row, Image, Col } from "antd";
 import IconButton from "@material-ui/core/IconButton";
-import { FcAddImage } from "react-icons/fc";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import { connect } from "react-redux";
 import { patchUser } from "../../redux/actions/auth";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,14 +76,14 @@ function PersonalInformation({ user, patchUser }) {
                   name="email"
                   label="Email"
                   rules={[
-                    { required: true, message: "Please input your email!" },
+                    { required: true, message: "This field is required" },
                   ]}
                 >
                   <Input
                     type="text"
                     placeholder="Enter your email"
                     {...register("email", { required: true })}
-                    autoFocus
+                    disabled={true}
                   />
                 </Form.Item>
               </Col>
@@ -92,7 +93,7 @@ function PersonalInformation({ user, patchUser }) {
                   name="phone"
                   label="Phone"
                   rules={[
-                    { required: true, message: "Please input your phone!" },
+                    { required: true, message: "This field is required" },
                   ]}
                 >
                   <Input
@@ -110,7 +111,7 @@ function PersonalInformation({ user, patchUser }) {
                   name="name"
                   label="Name"
                   rules={[
-                    { required: true, message: "Please input your name!" },
+                    { required: true, message: "This field is required" },
                   ]}
                 >
                   <Input
@@ -127,7 +128,7 @@ function PersonalInformation({ user, patchUser }) {
                   name="lastname"
                   label="Lastname"
                   rules={[
-                    { required: true, message: "Please input your lastname!" },
+                    { required: true, message: "This field is required" },
                   ]}
                 >
                   <Input
@@ -145,7 +146,7 @@ function PersonalInformation({ user, patchUser }) {
                   name="firstname"
                   label="Firstname"
                   rules={[
-                    { required: true, message: "Please input your firstname!" },
+                    { required: true, message: "This field is required" },
                   ]}
                 >
                   <Input
@@ -164,7 +165,7 @@ function PersonalInformation({ user, patchUser }) {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your middlename!",
+                      message: "This field is required",
                     },
                   ]}
                 >
@@ -221,7 +222,7 @@ function PersonalInformation({ user, patchUser }) {
                       aria-label="upload picture"
                       component="span"
                     >
-                      <FcAddImage />
+                      <AddPhotoAlternateIcon />
                     </IconButton>
                   </label>
                   <Image width={100} height={100} src={src} alt={alt} />
@@ -264,6 +265,9 @@ function PersonalInformation({ user, patchUser }) {
           </Col>
         </Row>
       </Form>
+      <Link to="/reset_password">
+        <button className="custom-button">Reset Password</button>
+      </Link>
     </Paper>
   );
 }

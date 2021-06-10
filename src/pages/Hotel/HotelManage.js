@@ -11,7 +11,7 @@ import {
   Typography,
   Checkbox,
 } from "antd";
-import { FcAddImage } from "react-icons/fc";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import {
   HomeOutlined,
   StarOutlined,
@@ -353,7 +353,7 @@ function HotelManage({
                   aria-label="upload picture"
                   component="span"
                 >
-                  <FcAddImage />
+                  <AddPhotoAlternateIcon />
                 </IconButton>
               </label>
               <Image width={200} height={200} src={src} alt={alt} />

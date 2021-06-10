@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { BsFillForwardFill } from "react-icons/bs";
+import ForwardIcon from "@material-ui/icons/Forward";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -45,7 +45,6 @@ function GuestBookingItem({ gb }) {
   const classes = useStyles();
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Canceled Booking List</h1>
       {!gb ? (
         <div style={{ textAlign: "center" }}>Nothing to show</div>
       ) : (
@@ -62,7 +61,7 @@ function GuestBookingItem({ gb }) {
             <div className={classes.controls}>
               <IconButton>{gb.checkin}</IconButton>
               <IconButton>
-                <BsFillForwardFill className={classes.playIcon} />
+                <ForwardIcon className={classes.playIcon} />
               </IconButton>
               <IconButton>{gb.checkout}</IconButton>
             </div>

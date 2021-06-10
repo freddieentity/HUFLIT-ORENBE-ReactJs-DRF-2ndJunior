@@ -26,7 +26,6 @@ import MainNavBar from "./components/MainNavBar";
 import GuestPersonal from "./pages/GuestPersonal/GuestPersonal";
 import PartnerBooking from "./pages/PartnerBooking/PartnerBooking";
 import PartnerUserInfo from "./pages/PartnerUserInfo/PartnerUserInfo";
-import Form from "./components/Form";
 import Contact from "./pages/Contact/Contact";
 import ResetPassword from "./pages/Login/ResetPassword";
 import ResetPasswordConfirm from "./pages/Login/ResetPasswordConfirm";
@@ -40,7 +39,6 @@ function App() {
       <ToastContainer />
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/test" component={Form} />
           <Route exact path="/signup" component={SignInForm} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/" component={GuestLanding} />

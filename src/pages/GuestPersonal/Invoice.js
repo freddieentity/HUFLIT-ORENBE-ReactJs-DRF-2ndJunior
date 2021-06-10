@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { BsFillForwardFill } from "react-icons/bs";
+import ForwardIcon from "@material-ui/icons/Forward";
 import { Button, TextField, Grid } from "@material-ui/core";
 import { Modal } from "antd";
 import { useForm, Controller } from "react-hook-form";
@@ -72,7 +72,6 @@ function Invoice({ gb, postComment }) {
   };
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Booking History</h1>
       <Card className={classes.root}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
@@ -86,7 +85,7 @@ function Invoice({ gb, postComment }) {
           <div className={classes.controls}>
             <IconButton>{gb.checkin}</IconButton>
             <IconButton>
-              <BsFillForwardFill className={classes.playIcon} />
+              <ForwardIcon className={classes.playIcon} />
             </IconButton>
             <IconButton>{gb.checkout}</IconButton>
           </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import { Button, Form } from "antd";
 import PlacesAutocomplete from "react-places-autocomplete";
-import { IoLocationOutline } from "react-icons/io5";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { Paper, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import { postHotelAddress } from "../../redux/actions/hotelAddress";
@@ -69,7 +69,7 @@ function HotelAddressForm({ hotel, postHotelAddress }) {
                     })}
                   >
                     <span>
-                      <IoLocationOutline />{" "}
+                      <LocationOnIcon />{" "}
                     </span>{" "}
                     <span
                       onClick={() => {

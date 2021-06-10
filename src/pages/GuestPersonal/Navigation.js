@@ -14,10 +14,10 @@ import SavedHotelItem from "./SavedHotelItem";
 import Invoice from "./Invoice";
 import Paid from "./Paid";
 import CanceledList from "./CanceledList";
-import { GrDocumentMissing } from "react-icons/gr";
-import { GiBanknote } from "react-icons/gi";
-import { RiHistoryLine } from "react-icons/ri";
-import { ImCancelCircle } from "react-icons/im";
+import DescriptionIcon from "@material-ui/icons/Description";
+import ReceiptIcon from "@material-ui/icons/Receipt";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import CancelScheduleSendIcon from "@material-ui/icons/CancelScheduleSend";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -86,22 +86,22 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
             {...a11yProps(1)}
           />
           <Tab
-            icon={<GrDocumentMissing fontSize="24px" />}
+            icon={<DescriptionIcon fontSize="24px" />}
             aria-label="phone"
             {...a11yProps(2)}
           />
           <Tab
-            icon={<GiBanknote fontSize="24px" />}
+            icon={<ReceiptIcon fontSize="24px" />}
             aria-label="help"
             {...a11yProps(3)}
           />
           <Tab
-            icon={<RiHistoryLine fontSize="24px" />}
+            icon={<TimelineIcon fontSize="24px" />}
             aria-label="shopping"
             {...a11yProps(4)}
           />
           <Tab
-            icon={<ImCancelCircle fontSize="24px" />}
+            icon={<CancelScheduleSendIcon fontSize="24px" />}
             aria-label="cancel"
             {...a11yProps(5)}
           />
@@ -114,12 +114,14 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
         <SavedHotelItem savedHotels={savedHotels} />
       </TabPanel>
       <TabPanel value={value} index={2}>
+        <h1 style={{ textAlign: "center" }}>Unpaid Booking List</h1>
         {guestBookings &&
           guestBookings.map(
             (gb) => !gb.is_paid && !gb.is_cancel && <GuestBookingItem gb={gb} />
           )}
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <h1 style={{ textAlign: "center" }}>Paid Booking List</h1>
         {guestBookings &&
           guestBookings.map(
             (gb) =>
@@ -129,6 +131,7 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
           )}
       </TabPanel>
       <TabPanel value={value} index={4}>
+        <h1 style={{ textAlign: "center" }}>Booking History</h1>
         {guestBookings &&
           guestBookings.map(
             (gb) =>
@@ -137,6 +140,7 @@ export default function Navigation({ user, guestBookings, savedHotels }) {
           )}
       </TabPanel>
       <TabPanel value={value} index={5}>
+        <h1 style={{ textAlign: "center" }}>Canceled Booking List</h1>
         {guestBookings &&
           guestBookings.map(
             (gb) =>

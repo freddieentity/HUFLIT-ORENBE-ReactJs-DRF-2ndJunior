@@ -3,7 +3,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import LocalActivityIcon from "@material-ui/icons/LocalActivity";
-import { GrMoney } from "react-icons/gr";
+import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 
 function SearchTools({ setType }) {
   const { handleSubmit, control } = useForm();
@@ -36,12 +36,12 @@ function SearchTools({ setType }) {
                 <Grid item xs={12} sm={6} lg={6}>
                   <FormControlLabel
                     value="highestPrice"
-                    control={<Radio icon={<GrMoney />} />}
+                    control={<Radio icon={<LocalAtmIcon />} />}
                     label="Highest Price"
                   />
                   <FormControlLabel
                     value="lowestPrice"
-                    control={<Radio icon={<GrMoney />} />}
+                    control={<Radio icon={<LocalAtmIcon />} />}
                     label="Lowest Price"
                   />
                 </Grid>

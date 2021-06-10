@@ -7,7 +7,7 @@ import Hero from "./Hero";
 import Pricing from "./Pricing";
 import Works from "./Works";
 
-function PartnerHome({ manageShow }) {
+function PartnerHome() {
   return (
     <div style={{ width: "100%" }}>
       <Hero />

@@ -4,7 +4,7 @@ import { Row, Col, Rate } from "antd";
 import { Chip, Paper } from "@material-ui/core";
 import { SimpleCarousel } from "./SimpleCarousel";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import { FcBookmark } from "react-icons/fc";
+import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import RoomHotelList from "./RoomHotelList";
 import NavBar from "../../components/NavBar";
 import Dropdown from "../../components/Dropdown";
@@ -98,7 +98,7 @@ function DetailHotel({ match, postSavedHotel }) {
                     }
                     style={{ cursor: "pointer" }}
                   >
-                    <FcBookmark fontSize="40px" />
+                    <BookmarksIcon fontSize="40px" />
                   </h4>
                 </div>
                 <h5>

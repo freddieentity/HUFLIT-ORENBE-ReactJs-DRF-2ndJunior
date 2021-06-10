@@ -1,7 +1,7 @@
 import { Paper, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
-import { FaHotel } from "react-icons/fa";
+import ApartmentIcon from "@material-ui/icons/Apartment";
 import RoomInfoCard from "./RoomInfoCard";
 import { Redirect } from "react-router-dom";
 
@@ -28,7 +28,7 @@ function RoomInfo({ singleRoom, hotelRoom }) {
         noWrap
         style={{ color: "#445A67", textAlign: "center", margin: "1% 1% 1% 1%" }}
       >
-        <FaHotel />
+        <ApartmentIcon />
       </Typography>
       <Typography
         variant="h5"

@@ -14,6 +14,8 @@ from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 import json
 from django.db.models import Count
+from django.core.mail import send_mail
+from decouple import config
 
 
 ###
@@ -224,12 +226,8 @@ class HotelImagesView(APIView):
         for image in images:
             new_img = HotelImage.objects.create(hotel_id=hotel_instance,image=image)
             new_img.save()
-
-        # serializer = HotelImageSerializer(new_img)
-        # return Response(serializer.data, status=status.HTTP_201_CREATED) 
         return Response({'message' : "Upload successfully"})
 
-    #PATCH /api/hotels/hoteltypes/?id
     #DELETE /api/hotels/hoteltypes/?id
     def delete(self, request, *args, **kwargs):
         
@@ -753,16 +751,38 @@ class BookingsView(APIView):
             pass
 
         try:
-            if data['is_paid'] != None:
-                print(data['is_paid'])                                
+            if data['is_paid'] != None:                             
                 new_booking.is_paid = True
+                new_booking.payment_at = datetime.now()
 
         except:
             pass
 
-        new_booking.save()
+        # new_booking.save()
 
         serializer = BookingSerializer(new_booking)
+        if str(new_booking.is_paid) == 'True':
+            payment_status = "Paid Via Online Payment"
+        else:
+            payment_status = "Pay Upon Check-in"
+
+        try:
+            if serializer != None:               
+                partner_instance = HotelOwner.objects.get(hotel_id=data['hotel_id'])
+                subject = f'"{new_booking.room_id.name}" | {data["checkin"]}  -  {data["checkout"]} | ORENBE RESERVATION | "{new_booking.hotel_id.name}"'
+                message = 'ORENBE RESERVATION RECEIPT\n\nContact Information\nName: ' + data['guest_name'] + '\nEmail: '+ data['guest_email'] + '\nPhone: '+ data['guest_phone']+ '\n\nPayment Specification\nPaid: $'+ data['payment']+ '\nPayment Option: '+ payment_status+ '\n\nSchedule\nDestination: '+ new_booking.hotel_id.name+ '\nCheck-in: '+ data['checkin']+ '\nCheck-out: '+ data['checkout']+ '\n\nPurchase Detail\nRoom: '+ new_booking.room_id.name+ '\nGuests: '+ str(data['number_of_guest'])+ '\nFinal Cost: $'+ data['payment']
+                send_mail(
+                subject,
+                message,
+                config('EMAIL_HOST_USER'),
+                [partner_instance.user.email, data["guest_email"]],
+                fail_silently=False
+            )
+                print('#########success')
+
+        except:
+            print('#########failed')
+
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
 
     #PATCH /api/hotels/?id
@@ -986,8 +1006,6 @@ class CommentsView(APIView):
 
 class ReportView(APIView):
     permission_classes = (permissions.AllowAny, )
-    # serializer_class = HotelSerializer
-    # pagination_class = None
 
     def get(self, request):
         result = (Booking.objects.values('hotel_id__name').annotate(bookingRateCount=Count('hotel_id__name')).order_by('-bookingRateCount')[:5])

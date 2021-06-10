@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { FaTimes } from "react-icons/fa";
+import CloseIcon from "@material-ui/icons/Close";
 import { menuData } from "../data/menuData";
 import { Button } from "./Button";
 
@@ -29,7 +29,7 @@ const Icon = styled.div`
   cursor: pointer;
   outline: none;
 `;
-const CloseIcon = styled(FaTimes)`
+const ClosedIcon = styled(CloseIcon)`
   color: #000d1a;
 `;
 const DropdownWrapper = styled.div``;
@@ -68,7 +68,7 @@ function Dropdown({ isOpen, toggle }) {
   return (
     <DropdownContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
-        <CloseIcon />
+        <ClosedIcon />
       </Icon>
       <DropdownWrapper>
         <DropdownMenu>

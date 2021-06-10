@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Rate } from "antd";
 import { AntDesignOutlined } from "@ant-design/icons";
 import { Grid, Paper } from "@material-ui/core";
-import { RiGhostSmileFill } from "react-icons/ri";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 
 const baseURL = process.env.REACT_APP_BACKEND_API;
 function CommentCard({ comment }) {
@@ -21,7 +21,7 @@ function CommentCard({ comment }) {
           <Rate
             disabled
             defaultValue={comment.rate / 2}
-            character={<RiGhostSmileFill />}
+            character={<LoyaltyIcon />}
             allowHalf
           />
         </Grid>

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
-import { IoMdArrowRoundForward } from "react-icons/io";
-import { IoArrowForward, IoArrowBack } from "react-icons/io5";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Button } from "../../components/Button";
 
 const HeroSection = styled.section`
@@ -39,10 +39,10 @@ const arrowButtons = css`
   }
 `;
 
-const PrevArrow = styled(IoArrowBack)`
+const PrevArrow = styled(ArrowBackIcon)`
   ${arrowButtons}
 `;
-const NextArrow = styled(IoArrowForward)`
+const NextArrow = styled(ArrowForwardIcon)`
   ${arrowButtons}
 `;
 const SliderButtons = styled.div`
@@ -53,7 +53,7 @@ const SliderButtons = styled.div`
   z-index: 10;
 `;
 
-const Arrow = styled(IoMdArrowRoundForward)`
+const Arrow = styled(ArrowForwardIcon)`
   margin-left: 0.5rem;
 `;
 

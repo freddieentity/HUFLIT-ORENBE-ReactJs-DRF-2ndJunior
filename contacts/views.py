@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .models import Contact
 from django.core.mail import send_mail
 from rest_framework.response import Response
+from decouple import config
 
 class ContactCreateView(APIView):
     permission_classes = (permissions.AllowAny, )
@@ -19,8 +20,8 @@ class ContactCreateView(APIView):
                 + data['email']
                 + '\n\nMessage:\n'
                 + data['message'],
-                'orenbeworldwide@gmail.com',
-                ['orenbeworldwide@gmail.com'],
+                data['email'],
+                [config('EMAIL_HOST_USER')],
                 fail_silently=False
             )
 

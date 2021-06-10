@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { Layout, Table, Rate, Card, Button, Image, Modal } from "antd";
 import HotelManage from "./HotelManage";
 import { Button as BlackButton } from "../../components/Button";
-import { AiOutlinePlusSquare } from "react-icons/ai";
-import { getHotelsByPartner, patchHotel } from "../../redux/actions/hotel";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import { getHotelsByPartner, deleteHotel } from "../../redux/actions/hotel";
 import { connect } from "react-redux";
 import HotelSpecification from "./HotelSpecification";
 import { Paper } from "@material-ui/core";
-import { FcOrgUnit, FcTimeline } from "react-icons/fc";
+import BackspaceIcon from "@material-ui/icons/Backspace";
+import DetailsIcon from "@material-ui/icons/Details";
+import EditAttributesIcon from "@material-ui/icons/EditAttributes";
 import HashLoader from "react-spinners/HashLoader";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -36,7 +38,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
+function Hotel({ hotels, getHotelsByPartner, deleteHotel }) {
   const c = useStyles();
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -63,7 +65,7 @@ function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
             }
             actions={[
               <>
-                <FcOrgUnit
+                <DetailsIcon
                   key={hotel.id}
                   onClick={() => {
                     setIsModalVisible(true);
@@ -82,7 +84,7 @@ function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
                 </Modal>
               </>,
               <Link to={`/hotels/${hotel.slug}`}>
-                <FcOrgUnit />
+                <DetailsIcon />
               </Link>,
             ]}
           >
@@ -116,20 +118,18 @@ function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
               }));
               setShowDrawer(true);
             }}
-            icon={<FcTimeline />}
+            icon={<EditAttributesIcon />}
           ></Button>
-          {/* <Button
+          <Button
             onClick={() => {
               setLoading(true);
-              patchHotel(hotel.id, {
-                
-              });
+              deleteHotel(hotel.id);
               setTimeout(() => {
                 setLoading(false);
               }, 800);
             }}
-            icon={<FcDeleteRow />}
-          ></Button> */}
+            icon={<BackspaceIcon />}
+          ></Button>
         </span>
       ),
     },
@@ -145,7 +145,7 @@ function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
           ) : (
             <>
               <div style={{ textAlign: "center" }}>
-                <FcOrgUnit />
+                <DetailsIcon />
                 <h2>Hotels Management</h2>
               </div>
 
@@ -161,7 +161,7 @@ function Hotel({ hotels, getHotelsByPartner, patchHotel }) {
                   setHotelEdit(defaultHotelValue);
                 }}
               >
-                <AiOutlinePlusSquare />
+                <LibraryAddIcon />
               </BlackButton>
               <Layout.Content style={{ marginTop: 10 }}>
                 <Paper
@@ -213,5 +213,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getHotelsByPartner,
-  patchHotel,
+  deleteHotel,
 })(Hotel);

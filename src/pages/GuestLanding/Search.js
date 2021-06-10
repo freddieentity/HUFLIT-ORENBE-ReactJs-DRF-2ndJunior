@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import PlacesAutocomplete from "react-places-autocomplete";
-import { IoLocationOutline } from "react-icons/io5";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { Link } from "react-router-dom";
 
 function formatDate(date) {
@@ -165,7 +165,7 @@ function Search() {
                           })}
                         >
                           <span>
-                            <IoLocationOutline />{" "}
+                            <LocationOnIcon />{" "}
                           </span>{" "}
                           <span
                             onClick={() => {

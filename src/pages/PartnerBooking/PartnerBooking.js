@@ -6,9 +6,10 @@ import {
   getBookingsByPartner,
   patchBooking,
 } from "../../redux/actions/booking";
-import { FcAnswers, FcApproval } from "react-icons/fc";
-import { BiCheckShield } from "react-icons/bi";
-import { TiCancel } from "react-icons/ti";
+import ErrorIcon from "@material-ui/icons/Error";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import CancelPresentationIcon from "@material-ui/icons/CancelPresentation";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -85,7 +86,7 @@ function PartnerBooking({
             patchBooking(record.id, { is_paid: !record.is_paid });
           }}
         >
-          {record.is_paid ? <FcApproval /> : <FcAnswers />}
+          {record.is_paid ? <VerifiedUserIcon /> : <ErrorIcon />}
         </Button>
       ),
     },
@@ -102,7 +103,7 @@ function PartnerBooking({
             patchBooking(record.id, { is_cancel: !record.is_cancel });
           }}
         >
-          {record.is_cancel ? <TiCancel /> : <BiCheckShield />}
+          {record.is_cancel ? <CancelPresentationIcon /> : <DoneAllIcon />}
         </Button>
       ),
     },

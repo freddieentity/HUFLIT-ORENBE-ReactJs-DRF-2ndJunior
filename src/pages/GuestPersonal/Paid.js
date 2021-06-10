@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { BsFillForwardFill } from "react-icons/bs";
+import ForwardIcon from "@material-ui/icons/Forward";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -53,7 +53,6 @@ function Paid({ gb, patchBooking }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Paid Booking List</h1>
       <Card className={classes.root}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
@@ -67,7 +66,7 @@ function Paid({ gb, patchBooking }) {
           <div className={classes.controls}>
             <IconButton>{gb.checkin}</IconButton>
             <IconButton>
-              <BsFillForwardFill className={classes.playIcon} />
+              <ForwardIcon className={classes.playIcon} />
             </IconButton>
             <IconButton>{gb.checkout}</IconButton>
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { reset_password_confirm } from "../../redux/actions/auth";
+import peak from "../../constants/peak";
 
 const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
   const [requestSent, setRequestSent] = useState(false);
@@ -20,9 +21,12 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
 
     const uid = match.params.uid;
     const token = match.params.token;
-
-    reset_password_confirm(uid, token, new_password, re_new_password);
-    setRequestSent(true);
+    if (new_password !== re_new_password) {
+      peak("error", "Password doesn't match");
+    } else {
+      reset_password_confirm(uid, token, new_password, re_new_password);
+      setRequestSent(true);
+    }
   };
 
   if (requestSent) {
