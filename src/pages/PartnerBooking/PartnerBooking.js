@@ -11,6 +11,7 @@ import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import CancelPresentationIcon from "@material-ui/icons/CancelPresentation";
 import { makeStyles } from "@material-ui/core/styles";
+import peak from "../../constants/peak";
 
 const useStyles = makeStyles({
   disabledrow: {
@@ -84,6 +85,7 @@ function PartnerBooking({
           color="warning"
           onClick={() => {
             patchBooking(record.id, { is_paid: !record.is_paid });
+            peak("info", "Paid status has been changed!");
           }}
         >
           {record.is_paid ? <VerifiedUserIcon /> : <ErrorIcon />}
@@ -101,6 +103,7 @@ function PartnerBooking({
           color="secondary"
           onClick={() => {
             patchBooking(record.id, { is_cancel: !record.is_cancel });
+            peak("info", "Booking cancellation status has been changed!");
           }}
         >
           {record.is_cancel ? <CancelPresentationIcon /> : <DoneAllIcon />}

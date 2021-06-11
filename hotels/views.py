@@ -769,7 +769,7 @@ class BookingsView(APIView):
         try:
             if serializer != None:               
                 partner_instance = HotelOwner.objects.get(hotel_id=data['hotel_id'])
-                subject = f'"{new_booking.room_id.name}" | {data["checkin"]}  -  {data["checkout"]} | ORENBE RESERVATION | "{new_booking.hotel_id.name}"'
+                subject = f'"{new_booking.room_id.name}" | {data["checkin"]}  -  {data["checkout"]} | ORENBE RESERVATION #{new_booking.id} | "{new_booking.hotel_id.name}"'
                 message = 'ORENBE RESERVATION RECEIPT\n\nContact Information\nName: ' + data['guest_name'] + '\nEmail: '+ data['guest_email'] + '\nPhone: '+ data['guest_phone']+ '\n\nPayment Specification\nPaid: $'+ data['payment']+ '\nPayment Option: '+ payment_status+ '\n\nSchedule\nDestination: '+ new_booking.hotel_id.name+ '\nCheck-in: '+ data['checkin']+ '\nCheck-out: '+ data['checkout']+ '\n\nPurchase Detail\nRoom: '+ new_booking.room_id.name+ '\nGuests: '+ str(data['number_of_guest'])+ '\nFinal Cost: $'+ data['payment']
                 send_mail(
                 subject,
@@ -789,11 +789,32 @@ class BookingsView(APIView):
     def patch(self, request, *args, **kwargs):
         queryset = Booking.objects.get(id=request.query_params["id"])
         data = request.data
+        partner_instance = HotelOwner.objects.get(hotel_id=queryset.hotel_id)
 
         try:
             is_cancel = data['is_cancel']
             if is_cancel != None:
-                queryset.is_cancel = is_cancel  
+                if str(queryset.is_paid) == 'True':
+                    payment_status = "Paid Via Online Payment"
+                else:
+                    payment_status = "Pay Upon Check-in"
+                
+                if str(is_cancel) == 'True':
+                    booking_status = "CANCELLED"
+                else:
+                    booking_status = "APPROVED"
+
+                subject = f'"{queryset.room_id.name}" | {queryset.checkin}  -  {queryset.checkout} | ORENBE CANCELLATION RECEIPT #{queryset.id} | "{queryset.hotel_id.name}"'
+                message = 'ORENBE BOOKING NOTIFICATION\n\nContact Information\nName: ' + queryset.guest_name + '\nEmail: '+ queryset.email + '\nPhone: '+ queryset.phone+ '\n\nPayment Specification\nPaid: $'+ str(queryset.payment)+ '\nPayment Option: '+ payment_status+'\n*BOOKING STATUS*: '+ booking_status+ '\n\nSchedule\nDestination: '+ queryset.hotel_id.name+ '\nCheck-in: '+ str(queryset.checkin)+ '\nCheck-out: '+ str(queryset.checkout)+ '\n\nPurchase Detail\nRoom: '+ queryset.room_id.name+ '\nGuests: '+ str(queryset.number_of_guest)+ '\nFinal Paid Cost: $'+ str(queryset.payment)
+                send_mail(
+                    subject,
+                    message,
+                    config('EMAIL_HOST_USER'),
+                    [partner_instance.user.email, queryset.email],
+                    fail_silently=False
+                )
+                queryset.is_cancel = is_cancel
+
         
         except:
             queryset.is_cancel = queryset.is_cancel
@@ -816,7 +837,37 @@ class BookingsView(APIView):
         queryset.phone = data.get("guest_phone", queryset.phone)
         queryset.email = data.get("guest_email", queryset.email)
         queryset.payment = data.get("payment", queryset.payment)
-        queryset.is_paid = data.get("is_paid", queryset.is_paid)
+        try:
+            is_paid = data['is_paid']
+            if is_paid != None:
+                if str(queryset.is_paid) == 'True':
+                    payment_status = "Paid Via Online Payment"
+                else:
+                    payment_status = "Pay Upon Check-in"
+                
+                if str(is_paid) == 'True':
+                    paid_status = "PAID UPON CHECKIN"
+                else:
+                    paid_status = "UNPAID"
+
+                print(str((queryset.checkout-queryset.checkin).days))
+
+                subject = f'"{queryset.room_id.name}" | {queryset.checkin}  -  {queryset.checkout} | ORENBE PAYMENT RECEIPT #{queryset.id} | "{queryset.hotel_id.name}"'
+                print(subject)
+                message = 'ORENBE BOOKING NOTIFICATION\n\nContact Information\nName: ' + queryset.guest_name + '\nEmail: '+ queryset.email + '\nPhone: '+ queryset.phone+ '\n\nPayment Specification\nDeposit: $'+ str(queryset.payment)+ '\nPayment Option: '+ payment_status+'\n*BOOKING STATUS*: '+ paid_status+ '\n\nSchedule\nDestination: '+ queryset.hotel_id.name+ '\nCheck-in: '+ str(queryset.checkin)+ '\nCheck-out: '+ str(queryset.checkout)+ '\n\nPurchase Detail\nRoom: '+ queryset.room_id.name+ '\nGuests: '+ str(queryset.number_of_guest)+ '\nFinal Paid Cost: $'+ str(5 * queryset.room_id.base_price_per_night)
+                print(message)
+                send_mail(
+                    subject,
+                    message,
+                    config('EMAIL_HOST_USER'),
+                    [partner_instance.user.email, queryset.email],
+                    fail_silently=False
+                )
+                queryset.is_paid = is_paid
+
+        
+        except:
+            queryset.is_paid = queryset.is_paid
 
         try:
             if data['hotel_id'] != None:
