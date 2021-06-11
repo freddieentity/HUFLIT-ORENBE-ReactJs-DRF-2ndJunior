@@ -93,10 +93,14 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
                                 borderTopLeftRadius: 10,
                                 borderTopRightRadius: 10,
                                 textAlign: "center",
+                                minHeight: "200px",
                               }}
                             />
                           }
-                          style={{ borderRadius: "10px 10px 10px 10px" }}
+                          style={{
+                            borderRadius: "10px 10px 10px 10px",
+                            height: "100%",
+                          }}
                         >
                           <Meta title={h.name} />
                           <Rate disabled value={h.rating} />

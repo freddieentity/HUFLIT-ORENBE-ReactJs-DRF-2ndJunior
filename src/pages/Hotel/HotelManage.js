@@ -12,7 +12,6 @@ import {
   Checkbox,
 } from "antd";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import GradeIcon from "@material-ui/icons/Grade";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PolicyIcon from "@material-ui/icons/Policy";
@@ -75,7 +74,6 @@ function HotelManage({
     pic && formData.append("main_photo", pic, pic.name);
     data.policy && formData.append("policy", data.policy);
     data.rating && formData.append("rating", data.rating);
-    data.sub_name && formData.append("sub_name", data.sub_name);
     data.is_available && formData.append("is_available", data.is_available);
     data.business_license &&
       formData.append("business_license", data.business_license);
@@ -121,7 +119,7 @@ function HotelManage({
         <Row>
           <Col span={12}>
             <Row>
-              <Col span={12}>
+              <Col span={24}>
                 <Form.Item
                   name="name"
                   label="Hotel name"
@@ -133,22 +131,6 @@ function HotelManage({
                     type="text"
                     placeholder="Enter hotel name"
                     {...register("name", { required: true })}
-                    autoFocus
-                  />
-                </Form.Item>
-              </Col>
-
-              <Col span={12}>
-                <Form.Item
-                  name="sub_name"
-                  label="Subname"
-                  rules={[{ required: true, message: "Please input subname!" }]}
-                >
-                  <Input
-                    prefix={<HomeWorkIcon className="site-form-item-icon" />}
-                    type="text"
-                    placeholder="Enter subname"
-                    {...register("sub_name", { required: true })}
                     autoFocus
                   />
                 </Form.Item>
@@ -276,6 +258,26 @@ function HotelManage({
             </Row>
             <Row>
               <Col span={12}>
+                <Form.Item
+                  name="description"
+                  tooltip="Other information about the hotel."
+                  label="Hotel description"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input hotel description!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Enter description"
+                    {...register("description", { required: true })}
+                    autoFocus
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
                 {mode === "add" && (
                   <Form.Item
                     name="business_license"
@@ -296,26 +298,6 @@ function HotelManage({
                     />
                   </Form.Item>
                 )}
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="description"
-                  tooltip="Other information about the hotel."
-                  label="Hotel description"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input hotel description!",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Enter description"
-                    {...register("description", { required: true })}
-                    autoFocus
-                  />
-                </Form.Item>
               </Col>
             </Row>
           </Col>

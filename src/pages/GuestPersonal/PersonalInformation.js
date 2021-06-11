@@ -72,19 +72,8 @@ function PersonalInformation({ user, patchUser }) {
           <Col span={16}>
             <Row>
               <Col span={12}>
-                <Form.Item
-                  name="email"
-                  label="Email"
-                  rules={[
-                    { required: true, message: "This field is required" },
-                  ]}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Enter your email"
-                    {...register("email", { required: true })}
-                    disabled={true}
-                  />
+                <Form.Item name="email" label="Email">
+                  <Input type="text" disabled={true} />
                 </Form.Item>
               </Col>
 

@@ -20,7 +20,7 @@ class ContactCreateView(APIView):
                 + data['email']
                 + '\n\nMessage:\n'
                 + data['message'],
-                data['email'],
+                config('EMAIL_HOST_USER'),
                 [config('EMAIL_HOST_USER')],
                 fail_silently=False
             )

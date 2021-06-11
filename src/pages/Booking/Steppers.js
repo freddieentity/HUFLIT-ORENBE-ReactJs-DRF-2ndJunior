@@ -448,9 +448,11 @@ const Steppers = ({ postBooking, singleRoom, hotelRoom, roomBookings }) => {
           sessionStorage.getItem("is_paid") &&
           sessionStorage.getItem("is_paid"),
         payment: sessionStorage.getItem("payment"),
+        user: sessionStorage.getItem("email")
+          ? sessionStorage.getItem("email")
+          : null,
       };
-      if (sessionStorage.getItem("email"))
-        fullData.user = sessionStorage.getItem("email");
+
       new Promise((resolve) =>
         setTimeout(() => {
           setLoading(false);

@@ -26,7 +26,6 @@ const defaultHotelValue = {
   main_photo: "https://i.stack.imgur.com/y9DpT.jpg",
   policy: "",
   rating: 0,
-  sub_name: "",
 };
 const useStyles = makeStyles({
   disabledrow: {

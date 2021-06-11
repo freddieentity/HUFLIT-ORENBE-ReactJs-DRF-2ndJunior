@@ -124,9 +124,9 @@ class HotelsView(APIView):
         is_online_checked_in = json.loads(request.POST.get('is_online_checked_in', 'false'))
         hotel_type_instance = HotelType.objects.get(id=data["hotel_type_id"])
 
-        new_hotel = Hotel.objects.create(name=data['name'],sub_name=data['sub_name'],main_photo=data['main_photo'], rating=data['rating'],
+        new_hotel = Hotel.objects.create(name=data['name'],main_photo=data['main_photo'], rating=data['rating'],
         is_online_checked_in=is_online_checked_in,base_price_per_night=data['base_price_per_night'],
-        description=data['description'],policy=data['policy'],hotel_type_id=hotel_type_instance)
+        description=data['description'],policy=data['policy'],business_license=data['business_license'],hotel_type_id=hotel_type_instance)
         new_hotel.save()
 
         serializer = HotelSerializer(new_hotel)
@@ -160,7 +160,6 @@ class HotelsView(APIView):
             queryset.is_available = queryset.is_available
 
         queryset.name = data.get("name", queryset.name)
-        queryset.sub_name = data.get("sub_name", queryset.sub_name)
         queryset.rating = data.get("rating", queryset.rating)
         queryset.base_price_per_night = data.get("base_price_per_night", queryset.base_price_per_night)
         queryset.main_photo = data.get("main_photo", queryset.main_photo)
@@ -758,7 +757,7 @@ class BookingsView(APIView):
         except:
             pass
 
-        # new_booking.save()
+        new_booking.save()
 
         serializer = BookingSerializer(new_booking)
         if str(new_booking.is_paid) == 'True':
