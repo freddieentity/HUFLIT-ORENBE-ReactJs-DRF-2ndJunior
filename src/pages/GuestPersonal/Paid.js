@@ -23,6 +23,7 @@ const baseURL = process.env.REACT_APP_BACKEND_API;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    margin: "1% 1% 1% 1%",
   },
   details: {
     display: "flex",
@@ -53,7 +54,7 @@ function Paid({ gb, patchBooking }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Card className={classes.root}>
+      <Card className={classes.root} square>
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography component="h5" variant="h5">
