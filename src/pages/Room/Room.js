@@ -7,23 +7,29 @@ import Loading from "../../components/Loading";
 import { Button as BlackButton } from "../../components/Button";
 import EditIcon from "@material-ui/icons/Edit";
 import RoomManage from "./RoomManage";
-import { getRooms, deleteRoom } from "../../redux/actions/room";
+import { getRoomsByPartner, deleteRoom } from "../../redux/actions/room";
 import { getHotels } from "../../redux/actions/hotel";
 import { connect } from "react-redux";
 import RoomImageList from "./RoomImageList";
 import { Link } from "react-router-dom";
 import PartnerRoom from "./PartnerRoom";
 
-function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
+function Room({
+  partnerRoomList,
+  hotels,
+  getRoomsByPartner,
+  deleteRoom,
+  getHotels,
+}) {
   const [mode, setMode] = useState("add");
   const [showDrawer, setShowDrawer] = useState(false);
   const [loading, setLoading] = useState(false);
   const [room, setRoom] = useState({});
 
   useEffect(() => {
-    getRooms();
+    getRoomsByPartner(sessionStorage.getItem("email"));
     getHotels();
-  }, [getRooms, getHotels]);
+  }, [getRoomsByPartner, getHotels]);
 
   const columns = [
     {
@@ -121,7 +127,7 @@ function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
               }}
             >
               <Table
-                dataSource={rooms}
+                dataSource={partnerRoomList}
                 columns={columns}
                 pagination={{ defaultPageSize: 4 }}
                 loading={loading}
@@ -157,11 +163,13 @@ function Room({ rooms, hotels, getRooms, deleteRoom, getHotels }) {
 
 const mapStateToProps = (state) => {
   return {
-    rooms: state.room.rooms,
+    partnerRoomList: state.room.partnerRoomList,
     hotels: state.hotel.hotels,
   };
 };
 
-export default connect(mapStateToProps, { getRooms, deleteRoom, getHotels })(
-  Room
-);
+export default connect(mapStateToProps, {
+  getRoomsByPartner,
+  deleteRoom,
+  getHotels,
+})(Room);

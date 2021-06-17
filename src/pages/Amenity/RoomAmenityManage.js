@@ -1,23 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Paper, TextField, makeStyles } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { connect } from "react-redux";
+import { postRoomAmenity } from "../../redux/actions/roomAmenity";
+import axios from "axios";
 
-const hotelAmenityCategories = [
-  { category: "Hotel Services" },
-  { category: "Food and Drinks" },
-  { category: "Things to Do" },
-  { category: "Public Facilities" },
-  { category: "In-room Facilities" },
-  { category: "General" },
-  { category: "Sports and Recreations" },
-  { category: "Transportation" },
-  { category: "Nearby Facilities" },
-  { category: "Business Facilities" },
-  { category: "Family-friendly Facilities" },
-  { category: "Connectivity" },
-  { category: "Shuttle Services" },
-  { category: "Others" },
-];
+const baseURL = process.env.REACT_APP_BACKEND_API;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,44 +19,71 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-function RoomAmenityManage({ room, mode }) {
+function RoomAmenityManage({ roomId, roomName, postRoomAmenity }) {
   const classes = useStyles();
+  const [rAL, setRAL] = useState([]);
+  const [amenityId, setAmenityId] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/api/hotels/roomamenities/`)
+      .then((res) => setRAL(res.data))
+      .catch((err) => console.log(`Get room amenities failed ! | ${err}`));
+  }, []);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    postRoomAmenity({ room_id: roomId, room_amenity_id: amenityId });
+  };
   return (
     <Paper className={classes.pageContent}>
-      <Grid container>
-        <Grid item xs={6}>
-          <TextField
-            variant="outlined"
-            id="outlined-margin-normal"
-            name="name"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Name"
-          />
+      <form onSubmit={onSubmit}>
+        <Grid container xs={12} spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              value={roomName}
+              disabled
+              label="Room"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Autocomplete
+              variant="outlined"
+              options={rAL}
+              getOptionLabel={(option) => `${option.name} | ${option.category}`}
+              onChange={(e, option) => setAmenityId(option.id)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                  name="category"
+                  label="Category"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Autocomplete
-            variant="outlined"
-            id="combo-box-demo"
-            options={hotelAmenityCategories}
-            getOptionLabel={(option) => option.category}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="category"
-                label="Category"
-                variant="outlined"
-              />
-            )}
-          />
+        <Grid item xs={12}>
+          <button
+            className="custom-button"
+            type="submit"
+            style={{ marginTop: "1%" }}
+          >
+            Submit
+          </button>
         </Grid>
-      </Grid>
+      </form>
     </Paper>
   );
 }
 
-export default RoomAmenityManage;
+export default connect(null, { postRoomAmenity })(RoomAmenityManage);

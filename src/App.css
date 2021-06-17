@@ -961,3 +961,32 @@ h1 {
   }
 }
 
+.review-overall-container {
+  display: block;
+  float: left;
+  width: 160px;
+  padding: 0 16px;
+}
+.review-overall-body {
+  background-color: #fff;
+  border-radius: 50%;
+  color: #fff;
+  height: 128px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  position: relative;
+  width: 128px;
+  border: 8px solid #235d9f;
+  padding: 4px;
+}
+
+.review-overall {
+  background-color: #1ba0e2;
+  border-radius: 50%;
+  width: 104px;
+  height: 104px;
+  line-height: 104px;
+  font-size: 56px;
+  font-weight: 500;
+  text-align: center;
+}

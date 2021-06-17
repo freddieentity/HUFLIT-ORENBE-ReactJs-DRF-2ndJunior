@@ -9,9 +9,9 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_BACKEND_API;
 
-export const getHotelAmenities = () => async (dispatch) => {
+export const getHotelAmenitiesAssc = (hotel_id) => async (dispatch) => {
   axios
-    .get(`${baseURL}/api/hotels/amenities/`)
+    .get(`${baseURL}/api/hotels/amenitiesassc/?hotel_id=${hotel_id}`)
     .then((res) => {
       dispatch({
         type: GET_HOTEL_AMENITIES,
@@ -25,21 +25,23 @@ export const getHotelAmenities = () => async (dispatch) => {
 
 export const postHotelAmenity = (data) => async (dispatch) => {
   axios
-    .post(`${baseURL}/api/hotels/amenities/`, data)
+    .post(`${baseURL}/api/hotels/amenitiesassc/`, data)
     .then((res) => {
       dispatch({
         type: POST_HOTEL_AMENITY,
         payload: res.data,
       });
-      toast.success(`Create an amenity "${res.data.name}"`);
+      toast.success(`Created an amenity`);
       console.log(res.data);
     })
-    .catch((err) => toast.warning(`Post address failed ! | ${err}`));
+    .catch((err) => toast.warning(`Create amenity failed ! | ${err}`));
 };
 
 export const patchHotelAmenity = (id, data) => async (dispatch) => {
+  console.log(id);
+  console.log(data);
   axios
-    .patch(`${baseURL}/api/hotels/amenities/?id=${id}`, data)
+    .patch(`${baseURL}/api/hotels/amenitiesassc/?id=${id}`, data)
     .then((res) => {
       dispatch({
         type: PATCH_HOTEL_AMENITY,
@@ -53,7 +55,7 @@ export const patchHotelAmenity = (id, data) => async (dispatch) => {
 
 export const deleteHotelAmenity = (id) => async (dispatch) => {
   axios
-    .delete(`${baseURL}/api/hotels/amenities/?id=${id}`)
+    .delete(`${baseURL}/api/hotels/amenitiesassc/?id=${id}`)
     .then((res) => {
       dispatch({
         type: DELETE_HOTEL_AMENITY,

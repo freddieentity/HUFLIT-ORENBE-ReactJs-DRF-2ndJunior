@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import {
-  GET_ADDRESSES,
+  GET_ADDRESS_BY_HOTEL,
   POST_ADDRESS,
   PATCH_ADDRESS,
   DELETE_ADDRESS,
@@ -9,12 +9,12 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_BACKEND_API;
 
-export const getHotelAddresses = () => async (dispatch) => {
+export const getHotelAddressByHotel = (hotel_id) => async (dispatch) => {
   axios
-    .get(`${baseURL}/api/hotels/addresses/`)
+    .get(`${baseURL}/api/hotels/addresses/?hotel_id=${hotel_id}`)
     .then((res) => {
       dispatch({
-        type: GET_ADDRESSES,
+        type: GET_ADDRESS_BY_HOTEL,
         payload: res.data,
       });
       console.log("Get hotel addresses successfully");

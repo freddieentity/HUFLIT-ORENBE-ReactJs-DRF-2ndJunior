@@ -1,15 +1,32 @@
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Slider } from "@material-ui/core";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 
-function SearchTools({ setType }) {
+function SearchTools({ setType, price, setPrice, hotelsFiltered }) {
   const { handleSubmit, control } = useForm();
 
+  const handleChange = (event, newValue) => {
+    setPrice(newValue);
+  };
+  const max = hotelsFiltered.reduce(
+    (p, c) =>
+      parseFloat(p.base_price_per_night) > parseFloat(c.base_price_per_night)
+        ? parseFloat(p.base_price_per_night)
+        : parseFloat(c.base_price_per_night),
+    0
+  );
+  const min = hotelsFiltered.reduce(
+    (p, c) =>
+      parseFloat(p.base_price_per_night) < parseFloat(c.base_price_per_night)
+        ? parseFloat(p.base_price_per_night)
+        : parseFloat(c.base_price_per_night),
+    0
+  );
+
   const onChangeFilter = (data) => {
-    console.log(data.type);
     if (data.condition === "highestPrice") {
       setType({ key: "base_price_per_night", order: "desc" });
     }
@@ -62,6 +79,17 @@ function SearchTools({ setType }) {
           )}
           name="condition"
           control={control}
+        />
+      </Paper>
+      <Paper square style={{ padding: "2% 4% 2% 4%" }}>
+        <h6>Price range</h6>
+        <Slider
+          min={min}
+          max={max}
+          value={price}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
+          aria-labelledby="range-slider"
         />
       </Paper>
     </form>

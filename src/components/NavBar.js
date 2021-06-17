@@ -92,7 +92,7 @@ function NavBar({
         </NavMenu>
         <NavBtn>
           {!loading && isAuthenticated ? (
-            <>
+            <div>
               <MenuBars onClick={toggle} />
               <NavMenu>
                 <NavMenuLinks
@@ -107,7 +107,7 @@ function NavBar({
                   </button>
                 </NavMenuLinks>
               </NavMenu>
-            </>
+            </div>
           ) : (
             <Link to="/login">
               <button className="custom-button">Login</button>

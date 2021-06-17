@@ -57,6 +57,7 @@ class HotelAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelAddress
         fields = '__all__'
+        depth=2
 
 
 class HotelAmenitySerializer(serializers.ModelSerializer):
@@ -69,6 +70,7 @@ class HotelAmenityAssociationSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelAmenityAssociation
         fields = '__all__'
+        depth=1
 
 
 
@@ -82,6 +84,7 @@ class RoomAmenityAssociationSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomAmenityAssociation
         fields = '__all__'
+        depth=1
 
 
 class BookingSerializer(serializers.ModelSerializer):

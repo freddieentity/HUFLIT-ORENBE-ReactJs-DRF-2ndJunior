@@ -5,6 +5,7 @@ import {
   DELETE_ROOM,
   GET_ROOM_BY_ID,
   GET_ROOMS_BY_HOTEL_ID,
+  GET_ROOMS_BY_PARTNER,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -42,6 +43,20 @@ export const getRoomsByHotelId = (hotel_id) => async (dispatch) => {
       console.log(res.data);
     })
     .catch((err) => console.log(`Get hotel room list failed ! | ${err}`));
+};
+
+export const getRoomsByPartner = (email) => async (dispatch) => {
+  axios
+    .get(`${baseURL}/api/hotels/roompartnerlist/?email=${email}`)
+    .then((res) => {
+      dispatch({
+        type: GET_ROOMS_BY_PARTNER,
+        payload: res.data,
+      });
+      console.log("Get partner room list successfully");
+      console.log(res.data);
+    })
+    .catch((err) => console.log(`Get partner room list failed ! | ${err}`));
 };
 
 export const getRoom = (room_id) => async (dispatch) => {

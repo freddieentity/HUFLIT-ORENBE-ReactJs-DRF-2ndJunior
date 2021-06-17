@@ -7,13 +7,31 @@ function HotelCommentList({ hotelId, hotelComments, getCommentsByHotel }) {
   useEffect(() => {
     getCommentsByHotel(hotelId);
   }, [hotelId, getCommentsByHotel]);
+  const ro = (
+    hotelComments.reduce((p, c) => p + c.rate, 0) / hotelComments.length
+  ).toFixed(1);
+  console.log(hotelComments);
   return (
-    <div>
-      {hotelComments &&
-        hotelComments.map((comment) => {
-          return <CommentCard comment={comment} />;
-        })}
-    </div>
+    <>
+      {hotelComments !== [] ? (
+        <div>
+          <h3 style={{ padding: "1% 1% 1% 1%" }}>
+            Based on <strong>{hotelComments.length}</strong> reviews
+          </h3>
+          <div className="review-overall-container">
+            <div className="review-overall-body">
+              <div className="review-overall">{ro}</div>
+            </div>
+          </div>
+          {hotelComments &&
+            hotelComments.map((comment) => {
+              return <CommentCard comment={comment} />;
+            })}
+        </div>
+      ) : (
+        `Currently there's no comment!`
+      )}
+    </>
   );
 }
 

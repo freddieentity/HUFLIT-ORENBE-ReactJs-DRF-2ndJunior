@@ -1,5 +1,5 @@
 import {
-  GET_ADDRESSES,
+  GET_ADDRESS_BY_HOTEL,
   POST_ADDRESS,
   PATCH_ADDRESS,
   DELETE_ADDRESS,
@@ -11,7 +11,7 @@ const initialState = {
 
 export default function foo(state = initialState, action) {
   switch (action.type) {
-    case GET_ADDRESSES:
+    case GET_ADDRESS_BY_HOTEL:
       return {
         ...state,
         hotelAddresses: action.payload,

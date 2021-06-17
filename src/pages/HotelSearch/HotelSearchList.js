@@ -14,10 +14,25 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
   const { search } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState([0, 0]);
   const [type, setType] = useState({
     key: "rating",
     order: "asc",
   });
+  const max = hotelsFiltered.reduce(
+    (p, c) =>
+      parseFloat(p.base_price_per_night) > parseFloat(c.base_price_per_night)
+        ? parseFloat(p.base_price_per_night)
+        : parseFloat(c.base_price_per_night),
+    0
+  );
+  const min = hotelsFiltered.reduce(
+    (p, c) =>
+      parseFloat(p.base_price_per_night) < parseFloat(c.base_price_per_night)
+        ? parseFloat(p.base_price_per_night)
+        : parseFloat(c.base_price_per_night),
+    0
+  );
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -68,7 +83,12 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
         style={{ padding: "80px 2% 2% 2%", position: "relative" }}
       >
         <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 8 }}>
-          <SearchTools setType={setType} />
+          <SearchTools
+            setType={setType}
+            price={price}
+            setPrice={setPrice}
+            hotelsFiltered={hotelsFiltered}
+          />
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 16 }}>
           {loading ? (

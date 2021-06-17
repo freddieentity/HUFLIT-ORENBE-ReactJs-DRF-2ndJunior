@@ -260,7 +260,26 @@ class RoomsHotelAssociation(ListAPIView):
            
         return Response(serializer.data)
  
-        
+
+class RoomsPartnerAssociation(ListAPIView):
+    permission_classes = (permissions.AllowAny, )
+    serializer_class = RoomHotelAssociationSerializer
+
+    def get(self, request, *args, **kwargs):
+        try:
+            if request.query_params["email"] != None:
+                user_instance = UserAccount.objects.get(email=request.query_params["email"])
+                hotels_owner = HotelOwner.objects.filter(user=user_instance)
+                print(set([i.hotel_id.id for i in hotels_owner]))
+                queryset = Room.objects.filter(hotel_id__in=set([i.hotel_id.id for i in hotels_owner]))
+                serializer = RoomSerializer(queryset, many=True)
+                result = serializer.data
+        except:
+            result = {}
+ 
+        return Response(result) 
+
+
 ###
 class RoomsView(APIView):
     permission_classes = (permissions.AllowAny, )
@@ -386,12 +405,12 @@ class HotelAddressesView(APIView):
     #GET /api/hotels/?id
     def get(self, request, *args, **kwargs):
         try:
-            if request.query_params["id"] != None:
-                queryset = HotelAddress.objects.get(id=request.query_params["id"])
-                serializer = HotelAddressSerializer(queryset)
+            if request.query_params["hotel_id"] != None:
+                queryset = HotelAddress.objects.filter(hotel_id=request.query_params["hotel_id"])
+                serializer = HotelAddressSerializer(queryset, many=True)
                 
         except:
-            queryset = HotelAddress.objects.all()
+            queryset = HotelAddress.objects.filter(hotel_id='')
             serializer = HotelAddressSerializer(queryset, many=True)
  
         return Response(serializer.data) 
@@ -572,31 +591,6 @@ class RoomAmenityAssociationView(APIView):
         serializer = RoomAmenityAssociationSerializer(new_room_amenity_association)
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
 
-    #PATCH /api/Rooms/?id
-    def patch(self, request, *args, **kwargs):
-        queryset = RoomAmenityAssociation.objects.get(id=request.query_params["id"])
-        data = request.data   
-        try:
-            if data['room_id'] != None:
-                room_instance = Room.objects.get(id=data["room_id"])
-                queryset.room_id = room_instance
-
-        except:
-            queryset.room_id = queryset.room_id
-
-        try:
-            if data['room_amenity_id'] != None:
-                room_amenity_instance = RoomAmenity.objects.get(id=data["room_amenity_id"])
-                queryset.room_amenity_id = room_amenity_instance
-
-        except:
-            queryset.room_amenity_id = queryset.room_amenity_id
-
-        queryset.save()
-        serializer = RoomAmenityAssociationSerializer(queryset)
-
-        return Response(serializer.data)
-
     #DELETE /api/Rooms/?id
     def delete(self, request, *args, **kwargs):
         
@@ -620,7 +614,7 @@ class HotelAmenityAssociationView(APIView):
                 serializer = HotelAmenityAssociationSerializer(queryset, many=True)
                 
         except:
-            queryset = HotelAmenityAssociation.objects.all()
+            queryset = ""
             serializer = HotelAmenityAssociationSerializer(queryset, many=True)
  
         return Response(serializer.data) 
@@ -638,30 +632,6 @@ class HotelAmenityAssociationView(APIView):
         serializer = HotelAmenityAssociationSerializer(new_hotel_amenity_association)
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
 
-    #PATCH /api/Rooms/?id
-    def patch(self, request, *args, **kwargs):
-        queryset = RoomAmenityAssociation.objects.get(id=request.query_params["id"])
-        data = request.data   
-        try:
-            if data['hotel_id'] != None:
-                hotel_instance = Hotel.objects.get(id=data["hotel_id"])
-                queryset.hotel_id = hotel_instance
-
-        except:
-            queryset.hotel_id = queryset.hotel_id
-
-        try:
-            if data['hotel_amenity_id'] != None:
-                hotel_amenity_instance = HotelAmenity.objects.get(id=data["hotel_amenity_id"])
-                queryset.hotel_amenity_id = hotel_amenity_instance
-
-        except:
-            queryset.hotel_amenity_id = queryset.hotel_amenity_id
-
-        queryset.save()
-        serializer = HotelAmenityAssociationSerializer(queryset)
-
-        return Response(serializer.data)
 
     #DELETE /api/Rooms/?id
     def delete(self, request, *args, **kwargs):

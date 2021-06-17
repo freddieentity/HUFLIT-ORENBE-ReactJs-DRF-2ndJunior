@@ -9,23 +9,25 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_BACKEND_API;
 
-export const getRoomAmenities = () => async (dispatch) => {
+export const getRoomAmenitiesAssc = (room_id) => async (dispatch) => {
   axios
-    .get(`${baseURL}/api/hotels/roomamenities/`)
+    .get(`${baseURL}/api/hotels/roomamenitiesassc/?room_id=${room_id}`)
     .then((res) => {
       dispatch({
         type: GET_ROOM_AMENITIES,
         payload: res.data,
       });
-      console.log("Get room amenities successfully");
+      console.log("Get partner room amenities successfully");
       console.log(res.data);
     })
-    .catch((err) => console.log(`Get room amenities failed ! | ${err}`));
+    .catch((err) =>
+      console.log(`Get partner room amenities failed ! | ${err}`)
+    );
 };
 
 export const postRoomAmenity = (data) => async (dispatch) => {
   axios
-    .post(`${baseURL}/api/hotels/roomamenities/`, data)
+    .post(`${baseURL}/api/hotels/roomamenitiesassc/`, data)
     .then((res) => {
       dispatch({
         type: POST_ROOM_AMENITY,
@@ -39,7 +41,7 @@ export const postRoomAmenity = (data) => async (dispatch) => {
 
 export const patchHotelAmenity = (id, data) => async (dispatch) => {
   axios
-    .patch(`${baseURL}/api/hotels/roomamenities/?id=${id}`, data)
+    .patch(`${baseURL}/api/hotels/roomamenitiesassc/?id=${id}`, data)
     .then((res) => {
       dispatch({
         type: PATCH_ROOM_AMENITY,
@@ -53,7 +55,7 @@ export const patchHotelAmenity = (id, data) => async (dispatch) => {
 
 export const deleteRoomAmenity = (id) => async (dispatch) => {
   axios
-    .delete(`${baseURL}/api/hotels/roomamenities/?id=${id}`)
+    .delete(`${baseURL}/api/hotels/roomamenitiesassc/?id=${id}`)
     .then((res) => {
       dispatch({
         type: DELETE_ROOM_AMENITY,

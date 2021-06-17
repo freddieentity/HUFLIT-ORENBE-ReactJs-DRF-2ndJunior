@@ -5,12 +5,14 @@ import {
   DELETE_ROOM,
   GET_ROOMS_BY_HOTEL_ID,
   GET_ROOM_BY_ID,
+  GET_ROOMS_BY_PARTNER,
 } from "../actions/types";
 
 const initialState = {
   rooms: [],
   hotelRoomList: [],
   singleRoom: {},
+  partnerRoomList: [],
 };
 
 export default function foo(state = initialState, action) {
@@ -25,6 +27,11 @@ export default function foo(state = initialState, action) {
         ...state,
         hotelRoomList: action.payload,
       };
+    case GET_ROOMS_BY_PARTNER:
+      return {
+        ...state,
+        partnerRoomList: action.payload,
+      };
     case GET_ROOM_BY_ID:
       return {
         ...state,
@@ -33,27 +40,27 @@ export default function foo(state = initialState, action) {
     case POST_ROOM:
       return {
         ...state,
-        rooms: [...state.rooms, action.payload],
+        partnerRoomList: [...state.partnerRoomList, action.payload],
       };
     case PATCH_ROOM:
-      const index = state.rooms.findIndex(
+      const index = state.partnerRoomList.findIndex(
         (room) => room.id === action.payload.id
-      ); // get the index
-      //slice the array to find the between spot for the patched record
+      );
       const updatedState = [
-        ...state.rooms.slice(0, index),
-        ...state.rooms.slice(index + 1),
+        ...state.partnerRoomList.slice(0, index),
+        ...state.partnerRoomList.slice(index + 1),
       ];
-      //put the patched record into the new one
       const finalState = [...updatedState, { ...action.payload }];
       return {
         ...state,
-        rooms: finalState,
+        partnerRoomList: finalState,
       };
     case DELETE_ROOM:
       return {
         ...state,
-        rooms: state.rooms.filter((room) => room.id !== action.payload), //return anything but the id we removed
+        partnerRoomList: state.partnerRoomList.filter(
+          (room) => room.id !== action.payload
+        ),
       };
     default:
       return state;
