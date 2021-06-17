@@ -10,6 +10,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import PlacesAutocomplete from "react-places-autocomplete";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { Link } from "react-router-dom";
+import peak from "../../constants/peak";
 
 function formatDate(date) {
   var d = new Date(date),
@@ -29,8 +30,8 @@ const tomorrowFns = add(new Date(), {
 function Search() {
   const [address, setAddress] = useState("");
   const [timeline, setTimeline] = useState({
-    checkin: formatDate(Date.now()),
-    checkout: formatDate(tomorrowFns),
+    checkin: Date.now(),
+    checkout: tomorrowFns,
   });
 
   const [addressData, setAddressData] = useState({
@@ -44,7 +45,6 @@ function Search() {
 
   sessionStorage.setItem("checkin", formatDate(timeline.checkin));
   sessionStorage.setItem("checkout", formatDate(timeline.checkout));
-
   return (
     <Paper
       elevation={1}
@@ -73,7 +73,6 @@ function Search() {
               <KeyboardDatePicker
                 margin="normal"
                 disablePast
-                autoOk={true}
                 name="checkin"
                 id="date-picker-dialog"
                 label="Check-in"
@@ -81,8 +80,10 @@ function Search() {
                 value={timeline.checkin}
                 fullWidth
                 onChange={(e) => {
-                  setTimeline({ ...timeline, checkin: e });
-                  sessionStorage.setItem("checkin", e);
+                  e < timeline.checkout
+                    ? setTimeline({ ...timeline, checkin: e }) &&
+                      sessionStorage.setItem("checkin", e)
+                    : peak("default", "🦄 Invalid date picked");
                 }}
                 initialFocusedDate={formatDate(Date.now())}
                 KeyboardButtonProps={{
@@ -96,7 +97,6 @@ function Search() {
               <KeyboardDatePicker
                 disablePast
                 margin="normal"
-                autoOk={true}
                 name="checkout"
                 variant="outlined"
                 id="date-picker-dialog"
@@ -105,8 +105,10 @@ function Search() {
                 fullWidth
                 value={timeline.checkout}
                 onChange={(e) => {
-                  setTimeline({ ...timeline, checkout: e });
-                  sessionStorage.setItem("checkout", e);
+                  timeline.checkin < e
+                    ? setTimeline({ ...timeline, checkout: e }) &&
+                      sessionStorage.setItem("checkout", e)
+                    : peak("default", " 🦄Invalid date picked");
                 }}
                 initialFocusedDate={`${formatDate(tomorrowFns)}`}
                 KeyboardButtonProps={{

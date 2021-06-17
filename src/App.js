@@ -36,7 +36,17 @@ import Facebook from "./pages/Login/Facebook";
 function App() {
   return (
     <Provider store={store}>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <ThemeProvider theme={theme}>
         <Switch>
           <Route exact path="/signup" component={SignInForm} />

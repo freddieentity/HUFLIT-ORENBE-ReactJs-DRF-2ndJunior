@@ -11,20 +11,6 @@ function SearchTools({ setType, price, setPrice, hotelsFiltered }) {
   const handleChange = (event, newValue) => {
     setPrice(newValue);
   };
-  const max = hotelsFiltered.reduce(
-    (p, c) =>
-      parseFloat(p.base_price_per_night) > parseFloat(c.base_price_per_night)
-        ? parseFloat(p.base_price_per_night)
-        : parseFloat(c.base_price_per_night),
-    0
-  );
-  const min = hotelsFiltered.reduce(
-    (p, c) =>
-      parseFloat(p.base_price_per_night) < parseFloat(c.base_price_per_night)
-        ? parseFloat(p.base_price_per_night)
-        : parseFloat(c.base_price_per_night),
-    0
-  );
 
   const onChangeFilter = (data) => {
     if (data.condition === "highestPrice") {
@@ -40,6 +26,20 @@ function SearchTools({ setType, price, setPrice, hotelsFiltered }) {
       setType({ key: "rating", order: "asc" });
     }
   };
+
+  const max = hotelsFiltered.reduce(
+    (p, c) =>
+      parseFloat(p.base_price_per_night) > parseFloat(c.base_price_per_night)
+        ? parseFloat(p.base_price_per_night)
+        : parseFloat(c.base_price_per_night),
+    0
+  );
+
+  let min = Number.POSITIVE_INFINITY;
+  for (let i = hotelsFiltered.length - 1; i >= 0; i--) {
+    if (parseFloat(hotelsFiltered[i].base_price_per_night) < min)
+      min = parseFloat(hotelsFiltered[i].base_price_per_night);
+  }
   return (
     <form onChange={handleSubmit(onChangeFilter)}>
       <Paper square style={{ padding: "2% 2% 2% 2%" }}>
@@ -82,12 +82,12 @@ function SearchTools({ setType, price, setPrice, hotelsFiltered }) {
         />
       </Paper>
       <Paper square style={{ padding: "2% 4% 2% 4%" }}>
-        <h6>Price range</h6>
+        <h5>Base Price Per Night</h5>
         <Slider
           min={min}
           max={max}
           value={price}
-          onChange={handleChange}
+          onChangeCommitted={handleChange}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
         />

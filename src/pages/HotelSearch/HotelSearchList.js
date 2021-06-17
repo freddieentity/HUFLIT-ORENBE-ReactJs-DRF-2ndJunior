@@ -11,14 +11,6 @@ import Dropdown from "../../components/Dropdown";
 const { Meta } = Card;
 
 function HotelSearchList({ hotelsFiltered, searchHotels }) {
-  const { search } = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState([0, 0]);
-  const [type, setType] = useState({
-    key: "rating",
-    order: "asc",
-  });
   const max = hotelsFiltered.reduce(
     (p, c) =>
       parseFloat(p.base_price_per_night) > parseFloat(c.base_price_per_night)
@@ -26,13 +18,20 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
         : parseFloat(c.base_price_per_night),
     0
   );
-  const min = hotelsFiltered.reduce(
-    (p, c) =>
-      parseFloat(p.base_price_per_night) < parseFloat(c.base_price_per_night)
-        ? parseFloat(p.base_price_per_night)
-        : parseFloat(c.base_price_per_night),
-    0
-  );
+
+  let min = Number.POSITIVE_INFINITY;
+  for (let i = hotelsFiltered.length - 1; i >= 0; i--) {
+    if (parseFloat(hotelsFiltered[i].base_price_per_night) < min)
+      min = parseFloat(hotelsFiltered[i].base_price_per_night);
+  }
+  const { search } = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState([0, 1000]);
+  const [type, setType] = useState({
+    key: "rating",
+    order: "asc",
+  });
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -44,7 +43,7 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
       setLoading(false);
       searchHotels(search);
     }, 700);
-  }, [searchHotels, search, type]);
+  }, [searchHotels, search, type, price]);
   function compareValues(key = "rating", order = "asc") {
     return function innerSort(a, b) {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -74,6 +73,7 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
     };
   }
 
+  console.log(hotelsFiltered);
   return (
     <>
       <NavBar toggle={toggle} />
@@ -100,6 +100,11 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
               {hotelsFiltered &&
                 hotelsFiltered
                   .sort(compareValues(type.key, type.order))
+                  .filter(
+                    (hf) =>
+                      hf.base_price_per_night >= min &&
+                      hf.base_price_per_night <= max
+                  )
                   .map((h) => (
                     <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 8 }}>
                       <Link to={`/hotels/${h.slug}`}>
@@ -124,6 +129,7 @@ function HotelSearchList({ hotelsFiltered, searchHotels }) {
                         >
                           <Meta title={h.name} />
                           <Rate disabled value={h.rating} />
+                          <h6>${h.base_price_per_night}</h6>
                         </Card>
                       </Link>
                     </Col>

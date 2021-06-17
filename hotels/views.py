@@ -16,6 +16,7 @@ import json
 from django.db.models import Count
 from django.core.mail import send_mail
 from decouple import config
+from django.db.models import Q
 
 
 ###
@@ -648,17 +649,16 @@ class HotelSearch(ListAPIView):
     serializer_class = HotelSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
     pagination_class = None
-    # filter_fields = ('city', 'country')
-    # search_fields = ('^city', 'country')
 
     def get_queryset(self):
-        checkin = self.request.query_params.get('checkin', date.today())
-        checkout = self.request.query_params.get('checkout', date.today() + timedelta(days=1))
-        guest_quantity = self.request.query_params.get('guest_quantity', 1)
+        checkin = datetime.strptime(self.request.query_params.get('checkin', date.today()),'%Y-%m-%d').date()
+        checkout = datetime.strptime(self.request.query_params.get('checkout', date.today() + timedelta(days=1)), '%Y-%m-%d').date()
         city = self.request.query_params.get('city', '')
         ha = HotelAddress.objects.filter(city__icontains=city) 
-        print(set([i.hotel_id.id for i in ha]))
-        queryset = Hotel.objects.filter(id__in=set([i.hotel_id.id for i in ha]))
+        # print(set([i.hotel_id.id for i in ha]))
+        b = Booking.objects.filter(Q(checkin__range=[checkin, checkout]) | Q(checkout__range=[checkin, checkout]) | Q(checkout__gte=checkout, checkin__lte=checkin) ) 
+        print(set([i.hotel_id.id for i in b]))
+        queryset = Hotel.objects.filter(id__in=set([i.hotel_id.id for i in ha])).exclude(id__in=set([i.hotel_id.id for i in b]))
         return queryset
 
 
